@@ -1,4 +1,4 @@
-# classification_models
+# Classification models Zoo
 Pretrained on ImageNet classification models
 
 ### Models:  
