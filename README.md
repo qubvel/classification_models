@@ -15,8 +15,8 @@ Pretrained classification models for Keras
 | ResNet18  | imagenet | 1000  |    imagenet1k              | +  | 
 | ResNet34  | imagenet | 1000  |    imagenet1k              | +  | 
 | ResNet50  | imagenet | 1000  |    imagenet1k              | +  | 
-| ResNet50  | imagenet | 11586 |    imagenet11k-places365ch | +  | 
+| ResNet50  | imagenet | 11586 |    imagenet11k-place365ch | +  | 
 | ResNet101 | imagenet | 1000  |    imagenet1k              | +  | 
 | ResNet152 | imagenet | 1000  |    imagenet1k              | +  | 
 | ResNet152 | imagenet | 11221 |    imagenet11k             | +  | 
-| ResNet152 | imagenet | 11586 |    imagenet11k-places365ch | +  | 
+| ResNet152 | imagenet | 11586 |    imagenet11k-place365ch | +  | 
