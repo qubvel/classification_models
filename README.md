@@ -3,11 +3,11 @@ Pretrained classification models for Keras
 
 ### Models: 
 - [ResNets](https://arxiv.org/abs/1512.03385) converted from MXNet:
-  - [ResNet18]()
-  - [ResNet34]()
-  - [ResNet50]()
-  - [ResNet101]()
-  - [ResNet152]()
+  - [ResNet18](https://github.com/qubvel/classification_models/blob/master/imgs/graphs/resnet18.png)
+  - [ResNet34](https://github.com/qubvel/classification_models/blob/master/imgs/graphs/resnet34.png)
+  - [ResNet50](https://github.com/qubvel/classification_models/blob/master/imgs/graphs/resnet50.png)
+  - ResNet101
+  - ResNet152
 
 #### Pre-trained weights
 | Model     | Dataset  | Classes |      Weights name        | No top | 
