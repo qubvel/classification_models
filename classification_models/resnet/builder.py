@@ -9,19 +9,22 @@ from keras.layers import ZeroPadding2D
 from keras.layers import Dense
 from keras.models import Model
 from keras.applications.imagenet_utils import _obtain_input_shape
+from keras.engine import get_source_inputs
 
 from .params import get_conv_params
 from .params import get_bn_params
 from .blocks import basic_conv_block
 from .blocks import basic_identity_block
-
+from .blocks import conv_block as usual_conv_block
+from .blocks import identity_block as usual_identity_block
 
 def build_resnet(
-     repetitions=[2, 2, 2, 2],
+     repetitions=(2, 2, 2, 2),
      include_top=True,
      input_tensor=None,
      input_shape=None,
-     classes=1000):
+     classes=1000,
+     block_type='usual'):
     
     """
     TODO
@@ -44,11 +47,16 @@ def build_resnet(
     
     # get parameters for model layers
     no_scale_bn_params = get_bn_params(scale=False)
-    bn_params =  get_bn_params()
+    bn_params = get_bn_params()
     conv_params = get_conv_params()
     init_filters = 64
-    conv_block = basic_conv_block
-    identity_block = basic_identity_block
+
+    if block_type == 'basic':
+        conv_block = basic_conv_block
+        identity_block = basic_identity_block
+    else:
+        conv_block = usual_conv_block
+        identity_block = usual_identity_block
     
     # resnet bottom
     x = BatchNormalization(name='bn_data', **no_scale_bn_params)(img_input)
@@ -86,7 +94,7 @@ def build_resnet(
 
     # Ensure that the model takes into account any potential predecessors of `input_tensor`.
     if input_tensor is not None:
-        inputs = engine.get_source_inputs(input_tensor)
+        inputs = get_source_inputs(input_tensor)
     else:
         inputs = img_input
         

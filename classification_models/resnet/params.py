@@ -1,5 +1,6 @@
-# default parameters for ResNet models
+# default parameters for convolution and batchnorm layers of ResNet models
 # parameters are obtained from MXNet converted model
+
 
 def get_conv_params(**params):
     default_conv_params = {
@@ -9,6 +10,7 @@ def get_conv_params(**params):
     }
     default_conv_params.update(params)
     return default_conv_params
+
 
 def get_bn_params(**params):
     default_bn_params = {
