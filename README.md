@@ -1,9 +1,22 @@
 # Classification models Zoo
-Pretrained on ImageNet classification models
+Pretrained classification models for Keras
 
-### Models:  
-- Resnet18
-- Resnet34
-- Resnet50
-- Resnet101
-- Resnet152
+### Models: 
+- [ResNets](https://arxiv.org/abs/1512.03385) converted from MXNet:
+  - [ResNet18]()
+  - [ResNet34]()
+  - [ResNet50]()
+  - [ResNet101]()
+  - [ResNet152]()
+
+#### Pre-trained weights
+| Model     | Dataset  | Classes |      Weights name        | No top | 
+|-----------|:----------:|:-------:|:----------------------------:|:------:| 
+| ResNet18  | imagenet | 1000  |    imagenet1k              | +  | 
+| ResNet34  | imagenet | 1000  |    imagenet1k              | +  | 
+| ResNet50  | imagenet | 1000  |    imagenet1k              | +  | 
+| ResNet50  | imagenet | 11586 |    imagenet11k-places365ch | +  | 
+| ResNet101 | imagenet | 1000  |    imagenet1k              | +  | 
+| ResNet152 | imagenet | 1000  |    imagenet1k              | +  | 
+| ResNet152 | imagenet | 11221 |    imagenet11k             | +  | 
+| ResNet152 | imagenet | 11586 |    imagenet11k-places365ch | +  | 
