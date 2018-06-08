@@ -3,7 +3,7 @@ weights_collection = [
     # ResNet18
     {
         'model': 'resnet18',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': True,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet18_imagenet_1000.h5',
@@ -13,7 +13,7 @@ weights_collection = [
 
     {
         'model': 'resnet18',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': False,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet18_imagenet_1000_no_top.h5',
@@ -24,7 +24,7 @@ weights_collection = [
     # ResNet34
     {
         'model': 'resnet34',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': True,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet34_imagenet_1000.h5',
@@ -34,7 +34,7 @@ weights_collection = [
 
     {
         'model': 'resnet34',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': False,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet34_imagenet_1000_no_top.h5',
@@ -45,7 +45,7 @@ weights_collection = [
     # ResNet50
     {
         'model': 'resnet50',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': True,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet50_imagenet_1000.h5',
@@ -55,7 +55,7 @@ weights_collection = [
 
     {
         'model': 'resnet50',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': False,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet50_imagenet_1000_no_top.h5',
@@ -86,7 +86,7 @@ weights_collection = [
     # ResNet101
     {
         'model': 'resnet101',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': True,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet101_imagenet_1000.h5',
@@ -96,7 +96,7 @@ weights_collection = [
 
     {
         'model': 'resnet101',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': False,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet101_imagenet_1000_no_top.h5',
@@ -108,7 +108,7 @@ weights_collection = [
     # ResNet152
     {
         'model': 'resnet152',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': True,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet152_imagenet_1000.h5',
@@ -118,7 +118,7 @@ weights_collection = [
 
     {
         'model': 'resnet152',
-        'dataset': 'imagenet1k',
+        'dataset': 'imagenet',
         'classes': 1000,
         'include_top': False,
         'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet152_imagenet_1000_no_top.h5',
