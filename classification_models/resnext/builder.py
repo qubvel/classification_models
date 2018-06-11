@@ -13,19 +13,18 @@ from keras.engine import get_source_inputs
 
 from .params import get_conv_params
 from .params import get_bn_params
-# from .blocks import basic_conv_block
-# from .blocks import basic_identity_block
-from .blocks import conv_block as usual_conv_block
-from .blocks import identity_block as usual_identity_block
 
-def build_resnet(
+from .blocks import conv_block
+from .blocks import identity_block
+
+
+def build_resnext(
      repetitions=(2, 2, 2, 2),
      include_top=True,
      input_tensor=None,
      input_shape=None,
      classes=1000,
-     block_type='usual',
-     bot_filters=64,
+     first_conv_filters=64,
      first_block_filters=64):
     
     """
@@ -52,31 +51,24 @@ def build_resnet(
     bn_params = get_bn_params()
     conv_params = get_conv_params()
     init_filters = first_block_filters
-
-    if block_type == 'basic':
-        conv_block = basic_conv_block
-        identity_block = basic_identity_block
-    else:
-        conv_block = usual_conv_block
-        identity_block = usual_identity_block
     
-    # resnet bottom
+    # resnext bottom
     x = BatchNormalization(name='bn_data', **no_scale_bn_params)(img_input)
     x = ZeroPadding2D(padding=(3, 3))(x)
-    x = Conv2D(bot_filters, (7, 7), strides=(2, 2), name='conv0', **conv_params)(x)
+    x = Conv2D(first_conv_filters, (7, 7), strides=(2, 2), name='conv0', **conv_params)(x)
     x = BatchNormalization(name='bn0', **bn_params)(x)
     x = Activation('relu', name='relu0')(x)
     x = ZeroPadding2D(padding=(1, 1))(x)
     x = MaxPooling2D((3, 3), strides=(2, 2), padding='valid', name='pooling0')(x)
     
-    # resnet body
+    # resnext body
     for stage, rep in enumerate(repetitions):
         for block in range(rep):
             
             filters = init_filters * (2**stage)
             
             # first block of first stage without strides because we have maxpooling before
-            if block == 0 and stage == 0:
+            if stage == 0 and block == 0:
                 x = conv_block(filters, stage, block, strides=(1, 1))(x)
                 
             elif block == 0:
@@ -85,8 +77,7 @@ def build_resnet(
             else:
                 x = identity_block(filters, stage, block)(x)
 
-
-    # resnet top
+    # resnext top
     if include_top:
         x = GlobalAveragePooling2D(name='pool1')(x)
         x = Dense(classes, name='fc1')(x)
@@ -98,7 +89,7 @@ def build_resnet(
     else:
         inputs = img_input
         
-    # Create model.
+    # Create model
     model = Model(inputs, x)
 
     return model

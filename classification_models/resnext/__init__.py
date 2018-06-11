@@ -1,3 +1,2 @@
-from keras.applications.resnet50 import preprocess_input
-
-__all__ = ['preprocess_input']
+from .models import ResNeXt50
+from .models import ResNeXt101
