@@ -1,7 +1,7 @@
 from keras.utils import get_file
 
 
-def find_weights(weights_collection, model_name, dataset, classes, include_top):
+def find_weights(weights_collection, model_name, dataset, include_top):
     w = list(filter(lambda x: x['model'] == model_name, weights_collection))
     w = list(filter(lambda x: x['dataset'] == dataset, w))
     w = list(filter(lambda x: x['include_top'] == include_top, w))
@@ -9,13 +9,13 @@ def find_weights(weights_collection, model_name, dataset, classes, include_top):
 
 
 def load_model_weights(weights_collection, model, dataset, classes, include_top):
-    weights = find_weights(weights_collection, model.name, dataset, classes, include_top)
+    weights = find_weights(weights_collection, model.name, dataset, include_top)
 
     if weights:
         weights = weights[0]
 
         if include_top and weights['classes'] != classes:
-            raise ValueError('If using `weights` as `include_top`'
+            raise ValueError('If using `weights` and `include_top`'
                              ' as true, `classes` should be {}'.format(weights['classes']))
 
         weights_path = get_file(weights['name'],
