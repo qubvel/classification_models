@@ -1,2 +1,1 @@
-from .models import ResNeXt50
-from .models import ResNeXt101
+from .preprocessing import preprocess_input

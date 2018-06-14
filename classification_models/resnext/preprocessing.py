@@ -10,6 +10,6 @@ def preprocess_input(x, size=None):
         x: numpy.ndarray
     """
     if size:
-        x = resize(x, size)
+        x = resize(x, size) * 255
 
     return x
