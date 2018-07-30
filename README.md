@@ -11,8 +11,7 @@ Pretrained classification models for Keras
 - [ResNeXt](https://arxiv.org/abs/1611.05431) models converted from MXNet:
   - ResNeXt50
   - ResNeXt101
-
-#### Pre-trained weights
+  
 | Model     | Classes |      Weights       | No top | Preprocessing|
 |-----------|:-------:|:----------------------------:|:------:|:------:|
 | ResNet18  | 1000  | `imagenet` | +  |BGR|
