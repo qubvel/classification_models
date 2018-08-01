@@ -42,7 +42,7 @@ x = np.expand_dims(x, 0)
 # load model
 model = ResNet18(input_shape=(224,224,3), weights='imagenet', classes=1000)
 
-# procees image
+# processing image
 y = model.predict(x)
 
 # result
