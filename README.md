@@ -18,7 +18,7 @@ Pretrained classification models for Keras
 | ResNet34  | 1000  | `imagenet` | +  |BGR|
 | ResNet50  | 1000<br>11586  |`imagenet`<br>`imagenet11k-place365ch` | +  |BGR |
 | ResNet101 | 1000  | `imagenet` | +  |BGR |
-| ResNet152 | 1000<br>11221<br>11586 | `imagenet`<br>`imagenet11k`<br>`imagenet11k-place365ch` | +  |BGR |
+| ResNet152 | 1000<br>11221<br>11586 | `imagenet`<br>`imagenet11k`| +  |BGR |
 | ResNeXt50 | 1000 | `imagenet` | +  |- |
 | ResNeXt101 | 1000 | `imagenet` | +  |- |
 
