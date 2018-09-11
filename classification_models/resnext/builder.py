@@ -8,8 +8,16 @@ from keras.layers import GlobalAveragePooling2D
 from keras.layers import ZeroPadding2D
 from keras.layers import Dense
 from keras.models import Model
-from keras.applications.imagenet_utils import _obtain_input_shape
 from keras.engine import get_source_inputs
+
+
+import keras
+from distutils.version import StrictVersion
+
+if StrictVersion(keras.__version__) < StrictVersion('2.2.0'):
+    from keras.applications.imagenet_utils import _obtain_input_shape
+else:
+    from keras_applications.imagenet_utils import _obtain_input_shape
 
 from .params import get_conv_params
 from .params import get_bn_params
