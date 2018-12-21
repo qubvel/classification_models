@@ -1,0 +1,2 @@
+keras>=2.1.4
+scikit-image>=0.14.1

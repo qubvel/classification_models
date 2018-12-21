@@ -22,6 +22,15 @@ Pretrained classification models for Keras
 | ResNeXt50 | 1000 | `imagenet` | +  |- |
 | ResNeXt101 | 1000 | `imagenet` | +  |- |
 
+### Installation
+PyPi package:
+```bash
+$ pip install image-classifiers
+```
+Latest version:
+```bash
+$ pip install git+https://github.com/qubvel/classification_models.git
+```
 
 ### Example  
 
