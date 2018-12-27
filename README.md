@@ -12,15 +12,15 @@ Pretrained classification models for Keras
   - ResNeXt50
   - ResNeXt101
   
-| Model     | Classes |      Weights       | No top | Preprocessing|
+| Model     | Classes |      Weights       | Acc@1 | Acc@5|
 |-----------|:-------:|:----------------------------:|:------:|:------:|
-| ResNet18  | 1000  | `imagenet` | +  |BGR|
-| ResNet34  | 1000  | `imagenet` | +  |BGR|
-| ResNet50  | 1000<br>11586  |`imagenet`<br>`imagenet11k-place365ch` | +  |BGR |
-| ResNet101 | 1000  | `imagenet` | +  |BGR |
-| ResNet152 | 1000<br>11221<br>11586 | `imagenet`<br>`imagenet11k`<br>`imagenet11k-place365ch` | +  |BGR |
-| ResNeXt50 | 1000 | `imagenet` | +  |- |
-| ResNeXt101 | 1000 | `imagenet` | +  |- |
+| ResNet18  | 1000  | `imagenet` | 0.6848 |0.8868|
+| ResNet34  | 1000  | `imagenet` | 0.7241 |0.9097|
+| ResNet50  | 1000<br>11586  |`imagenet`<br>`imagenet11k-place365ch` | 0.7503<br>-  |0.9256<br>- |
+| ResNet101 | 1000  | `imagenet` | 0.7680   |0.9328 |
+| ResNet152 | 1000<br>11221 | `imagenet`<br>`imagenet11k` | 0.7689<br>-  | 0.9331<br>-|
+| ResNeXt50 | 1000 | `imagenet` | -  |- |
+| ResNeXt101 | 1000 | `imagenet` | -  |- |
 
 ### Installation
 PyPi package:
@@ -38,6 +38,7 @@ Imagenet inference example:
 ```python
 import numpy as np
 from skimage.io import imread
+from skimage.transfrom import resize
 from keras.applications.imagenet_utils import decode_predictions
 
 from classification_models import ResNet18
@@ -45,7 +46,8 @@ from classification_models.resnet import preprocess_input
 
 # read and prepare image
 x = imread('./imgs/tests/seagull.jpg')
-x = preprocess_input(x, size=(224,224))
+x = resize(x, (224, 224)) * 255    # cast back to 0-255 range
+x = preprocess_input(x)
 x = np.expand_dims(x, 0)
 
 # load model
