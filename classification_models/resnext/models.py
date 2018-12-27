@@ -3,6 +3,10 @@ from ..utils import load_model_weights
 from ..weights import weights_collection
 
 
+# preprocessing function
+preprocess_input = lambda x: x
+
+
 def ResNeXt50(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
     model = build_resnext(input_tensor=input_tensor,
                          input_shape=input_shape,

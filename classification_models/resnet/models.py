@@ -4,6 +4,10 @@ from ..weights import weights_collection
 from .params import get_model_params
 
 
+# preprocessing function
+preprocess_input = lambda x: x
+
+
 def _get_model(name):
     def builder(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
         model_params = get_model_params(name)
@@ -20,6 +24,7 @@ def _get_model(name):
 
         return model
     return builder
+
 
 # classic resnet models
 ResNet18 = _get_model('resnet18')

@@ -97,7 +97,7 @@ def residual_bottleneck_block(filters, stage, block, strides=None, attention=Non
         if cut == 'pre':
             shortcut = input_tensor
         elif cut == 'post':
-            shortcut = Conv2D(filters, (1, 1), name=sc_name, strides=strides, **conv_params)(x)
+            shortcut = Conv2D(filters*4, (1, 1), name=sc_name, strides=strides, **conv_params)(x)
         else:
             raise ValueError('Cut type not in ["pre", "post"]')
 

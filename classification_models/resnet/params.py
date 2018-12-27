@@ -4,7 +4,7 @@
 
 def get_conv_params(**params):
     default_conv_params = {
-        'kernel_initializer': 'glorot_uniform',
+        'kernel_initializer': 'he_uniform',
         'use_bias': False,
         'padding': 'valid',
     }
