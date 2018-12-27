@@ -21,6 +21,7 @@ from ..common.se import channel_se_block
 from ..common.se import spatial_se_block
 from ..common.se import csse_block
 
+
 def build_resnet(
      repetitions=(2, 2, 2, 2),
      include_top=True,
@@ -28,8 +29,7 @@ def build_resnet(
      input_shape=None,
      classes=1000,
      block_type='conv',
-     attention=None,
-):
+     attention=None):
     
     """
     TODO

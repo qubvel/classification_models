@@ -1,50 +1,12 @@
 from .builder import build_resnet
 from ..utils import load_model_weights
 from ..weights import weights_collection
-
-MODELS_PARAMS = {
-
-    'resnet18': {
-        'repetitions': (2, 2, 2, 2),
-        'block_type': 'conv',
-        'attention': None,
-    },
-
-    'resnet34': {
-        'repetitions': (3, 4, 6, 3),
-        'block_type': 'conv',
-        'attention': None,
-    },
-
-    'resnet50': {
-        'repetitions': (3, 4, 6, 3),
-        'block_type': 'bottleneck',
-        'attention': None,
-    },
-
-    'resnet101': {
-        'repetitions': (3, 4, 23, 3),
-        'block_type': 'bottleneck',
-        'attention': None,
-    },
-
-    'resnet152': {
-        'repetitions': (3, 8, 36, 3),
-        'block_type': 'bottleneck',
-        'attention': None,
-    },
-
-    'seresnet18': {
-        'repetitions': (2, 2, 2, 2),
-        'block_type': 'conv',
-        'attention': 'cse',
-    },
-}
+from .params import get_model_params
 
 
-def get_model(name):
+def _get_model(name):
     def builder(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
-        model_params = MODELS_PARAMS[name]
+        model_params = get_model_params(name)
         model = build_resnet(input_tensor=input_tensor,
                              input_shape=input_shape,
                              classes=classes,
@@ -59,78 +21,23 @@ def get_model(name):
         return model
     return builder
 
-ResNet18 = get_model('resnet18')
-ResNet34 = get_model('resnet34')
-ResNet50 = get_model('resnet50')
-ResNet101 = get_model('resnet101')
-ResNet152 = get_model('resnet152')
-SEResNet18 = get_model('seresnet18')
-#
-# def ResNet18(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
-#     model = build_resnet(input_tensor=input_tensor,
-#                          input_shape=input_shape,
-#                          repetitions=(2, 2, 2, 2),
-#                          classes=classes,
-#                          include_top=include_top,
-#                          block_type='conv')
-#     model.name = 'resnet18'
-#
-#     if weights:
-#         load_model_weights(weights_collection, model, weights, classes, include_top)
-#     return model
-#
-#
-# def ResNet34(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
-#     model = build_resnet(input_tensor=input_tensor,
-#                          input_shape=input_shape,
-#                          repetitions=(3, 4, 6, 3),
-#                          classes=classes,
-#                          include_top=include_top,
-#                          block_type='conv')
-#     model.name = 'resnet34'
-#
-#     if weights:
-#         load_model_weights(weights_collection, model, weights, classes, include_top)
-#     return model
-#
-#
-# def ResNet50(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
-#     model = build_resnet(input_tensor=input_tensor,
-#                          input_shape=input_shape,
-#                          repetitions=(3, 4, 6, 3),
-#                          classes=classes,
-#                          include_top=include_top,
-#                          block_type='bottleneck')
-#     model.name = 'resnet50'
-#
-#     if weights:
-#         load_model_weights(weights_collection, model, weights, classes, include_top)
-#     return model
-#
-#
-# def ResNet101(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
-#     model = build_resnet(input_tensor=input_tensor,
-#                          input_shape=input_shape,
-#                          repetitions=(3, 4, 23, 3),
-#                          classes=classes,
-#                          include_top=include_top,
-#                          block_type='bottleneck')
-#     model.name = 'resnet101'
-#
-#     if weights:
-#         load_model_weights(weights_collection, model, weights, classes, include_top)
-#     return model
-#
-#
-# def ResNet152(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
-#     model = build_resnet(input_tensor=input_tensor,
-#                          input_shape=input_shape,
-#                          repetitions=(3, 8, 36, 3),
-#                          classes=classes,
-#                          include_top=include_top,
-#                          block_type='bottleneck')
-#     model.name = 'resnet152'
-#
-#     if weights:
-#         load_model_weights(weights_collection, model, weights, classes, include_top)
-#     return model
+# classic resnet models
+ResNet18 = _get_model('resnet18')
+ResNet34 = _get_model('resnet34')
+ResNet50 = _get_model('resnet50')
+ResNet101 = _get_model('resnet101')
+ResNet152 = _get_model('resnet152')
+
+# resnets with squeeze and excitation attention block
+SEResNet18 = _get_model('seresnet18')
+SEResNet34 = _get_model('seresnet34')
+SEResNet50 = _get_model('seresnet50')
+SEResNet101 = _get_model('seresnet101')
+SEResNet152 = _get_model('seresnet152')
+
+# resnets with concurrent squeeze and excitation attention block
+CSSEResNet18 = _get_model('csseresnet18')
+CSSEResNet34 = _get_model('csseresnet34')
+CSSEResNet50 = _get_model('csseresnet50')
+CSSEResNet101 = _get_model('csseresnet101')
+CSSEResNet152 = _get_model('csseresnet152')

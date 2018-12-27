@@ -22,3 +22,102 @@ def get_bn_params(**params):
     }
     default_bn_params.update(params)
     return default_bn_params
+
+
+def get_model_params(name):
+
+    params = {
+
+        'resnet18': {
+            'repetitions': (2, 2, 2, 2),
+            'block_type': 'conv',
+            'attention': None,
+        },
+
+        'resnet34': {
+            'repetitions': (3, 4, 6, 3),
+            'block_type': 'conv',
+            'attention': None,
+        },
+
+        'resnet50': {
+            'repetitions': (3, 4, 6, 3),
+            'block_type': 'bottleneck',
+            'attention': None,
+        },
+
+        'resnet101': {
+            'repetitions': (3, 4, 23, 3),
+            'block_type': 'bottleneck',
+            'attention': None,
+        },
+
+        'resnet152': {
+            'repetitions': (3, 8, 36, 3),
+            'block_type': 'bottleneck',
+            'attention': None,
+        },
+
+        'seresnet18': {
+            'repetitions': (2, 2, 2, 2),
+            'block_type': 'conv',
+            'attention': 'cse',
+        },
+
+        'seresnet34': {
+            'repetitions': (3, 4, 6, 3),
+            'block_type': 'conv',
+            'attention': 'cse',
+        },
+
+        'seresnet50': {
+            'repetitions': (3, 4, 6, 3),
+            'block_type': 'bottleneck',
+            'attention': 'cse',
+        },
+
+        'seresnet101': {
+            'repetitions': (3, 4, 23, 3),
+            'block_type': 'bottleneck',
+            'attention': 'cse',
+        },
+
+        'seresnet152': {
+            'repetitions': (3, 8, 36, 3),
+            'block_type': 'bottleneck',
+            'attention': 'cse',
+        },
+
+        'csseresnet18': {
+            'repetitions': (2, 2, 2, 2),
+            'block_type': 'conv',
+            'attention': 'csse',
+        },
+
+        'csseresnet34': {
+            'repetitions': (3, 4, 6, 3),
+            'block_type': 'conv',
+            'attention': 'csse',
+        },
+
+        'csseresnet50': {
+            'repetitions': (3, 4, 6, 3),
+            'block_type': 'bottleneck',
+            'attention': 'csse',
+        },
+
+        'csseresnet101': {
+            'repetitions': (3, 4, 23, 3),
+            'block_type': 'bottleneck',
+            'attention': 'csse',
+        },
+
+        'csseresnet152': {
+            'repetitions': (3, 8, 36, 3),
+            'block_type': 'bottleneck',
+            'attention': 'csse',
+        },
+
+    }
+
+    return params[name]

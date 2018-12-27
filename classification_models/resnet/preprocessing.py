@@ -1,6 +1,7 @@
 import numpy as np
 from skimage.transform import resize
 
+
 def preprocess_input(x, size=None, BGRTranspose=True):
     """input standardizing function
     Args:
@@ -9,7 +10,7 @@ def preprocess_input(x, size=None, BGRTranspose=True):
     Return:
         x: numpy.ndarray
     """
-    if size:
+    if size is not None:
         x = resize(x, size) * 255
 
     if BGRTranspose:
