@@ -190,4 +190,25 @@ weights_collection = [
         'md5': '91fe0126320e49f6ee607a0719828c7e',
     },
 
+    # SE models
+    {
+        'model': 'seresnet50',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': True,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/seresnet50_imagenet_1000.h5',
+        'name': 'seresnet50_imagenet_1000.h5',
+        'md5': 'ff0ce1ed5accaad05d113ecef2d29149',
+    },
+
+    {
+        'model': 'seresnet50',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': False,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/seresnet50_imagenet_1000_no_top.h5',
+        'name': 'seresnet50_imagenet_1000_no_top.h5',
+        'md5': '043777781b0d5ca756474d60bf115ef1',
+    },
+
 ]

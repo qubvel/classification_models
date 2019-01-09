@@ -36,13 +36,13 @@ ResNet152 = _get_model('resnet152')
 # resnets with squeeze and excitation attention block
 SEResNet18 = _get_model('seresnet18')
 SEResNet34 = _get_model('seresnet34')
-SEResNet50 = _get_model('seresnet50')
-SEResNet101 = _get_model('seresnet101')
-SEResNet152 = _get_model('seresnet152')
-
-# resnets with concurrent squeeze and excitation attention block
-CSSEResNet18 = _get_model('csseresnet18')
-CSSEResNet34 = _get_model('csseresnet34')
-CSSEResNet50 = _get_model('csseresnet50')
-CSSEResNet101 = _get_model('csseresnet101')
-CSSEResNet152 = _get_model('csseresnet152')
+# SEResNet50 = _get_model('seresnet50')
+# SEResNet101 = _get_model('seresnet101')
+# SEResNet152 = _get_model('seresnet152')
+#
+# # resnets with concurrent squeeze and excitation attention block
+# CSSEResNet18 = _get_model('csseresnet18')
+# CSSEResNet34 = _get_model('csseresnet34')
+# CSSEResNet50 = _get_model('csseresnet50')
+# CSSEResNet101 = _get_model('csseresnet101')
+# CSSEResNet152 = _get_model('csseresnet152')
