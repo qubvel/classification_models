@@ -80,23 +80,27 @@ def build_senet(
     if input_3x3:
 
         x = kl.ZeroPadding2D(1)(x)
-        x = kl.Conv2D(64,  (3, 3), strides=2, padding='same', use_bias=False)(x)
+        x = kl.Conv2D(init_filters,  (3, 3), strides=2,
+                      use_bias=False, kernel_initializer='he_uniform')(x)
         x = kl.BatchNormalization(**bn_params)(x)
         x = kl.Activation('relu')(x)
 
         x = kl.ZeroPadding2D(1)(x)
-        x = kl.Conv2D(64,  (3, 3), padding='same', use_bias=False)(x)
+        x = kl.Conv2D(init_filters, (3, 3), use_bias=False,
+                      kernel_initializer='he_uniform')(x)
         x = kl.BatchNormalization(**bn_params)(x)
         x = kl.Activation('relu')(x)
 
         x = kl.ZeroPadding2D(1)(x)
-        x = kl.Conv2D(init_filters, (3, 3), padding='same', use_bias=False)(x)
+        x = kl.Conv2D(init_filters * 2, (3, 3), use_bias=False,
+                      kernel_initializer='he_uniform')(x)
         x = kl.BatchNormalization(**bn_params)(x)
         x = kl.Activation('relu')(x)
 
     else:
         x = kl.ZeroPadding2D(3)(x)
-        x = kl.Conv2D(init_filters, (7, 7), strides=2, use_bias=False)(x)
+        x = kl.Conv2D(init_filters, (7, 7), strides=2, use_bias=False,
+                      kernel_initializer='he_uniform')(x)
         x = kl.BatchNormalization(**bn_params)(x)
         x = kl.Activation('relu')(x)
 
@@ -121,7 +125,7 @@ def build_senet(
     if include_top:
         x = kl.GlobalAveragePooling2D()(x)
         if dropout is not None:
-            kl.Dropout(dropout)(x)
+            x = kl.Dropout(dropout)(x)
         x = kl.Dense(classes)(x)
         x = kl.Activation(activation)(x)
 

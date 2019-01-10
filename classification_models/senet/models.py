@@ -59,7 +59,7 @@ models_params = {
         'input_3x3': True,
         'groups': 64,
         'reduction': 16,
-        'init_filters': 128,
+        'init_filters': 64,
         'dropout': 0.2,
     },
 }

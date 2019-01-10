@@ -271,4 +271,24 @@ weights_collection = [
         'md5': 'b0f23d2e1cd406d67335fb92d85cc279',
     },
 
+    {
+        'model': 'seresnext101',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': True,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/seresnext101_imagenet_1000.h5',
+        'name': 'seresnext101_imagenet_1000.h5',
+        'md5': 'be5b26b697a0f7f11efaa1bb6272fc84',
+    },
+
+    {
+        'model': 'seresnext101',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': False,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/seresnext101_imagenet_1000_no_top.h5',
+        'name': 'seresnext101_imagenet_1000_no_top.h5',
+        'md5': 'e48708cbe40071cc3356016c37f6c9c7',
+    },
+
 ]

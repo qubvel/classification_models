@@ -36,7 +36,7 @@ Pretrained classification models for Keras
 | SEResNet101  | 1000  | `imagenet` | 0.7792 |0.9400|
 | SEResNet152  | 1000  | `imagenet` | 0.7834 |0.9408|
 | SEResNeXt50  | 1000  | `imagenet` | 0.7874 |0.9430|
-| SEResNeXt101  | 1000  | `imagenet` | - | - |
+| SEResNeXt101  | 1000 | `imagenet` | 0.7988 |0.9487|
 
 ### Installation
 PyPi package:
