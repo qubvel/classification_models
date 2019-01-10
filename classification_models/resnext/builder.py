@@ -8,7 +8,6 @@ from keras.layers import GlobalAveragePooling2D
 from keras.layers import ZeroPadding2D
 from keras.layers import Dense
 from keras.models import Model
-from keras.applications.imagenet_utils import _obtain_input_shape
 from keras.engine import get_source_inputs
 
 from .params import get_conv_params
@@ -30,13 +29,6 @@ def build_resnext(
     """
     TODO
     """
-    
-    # Determine proper input shape
-    input_shape = _obtain_input_shape(input_shape,
-                                      default_size=224,
-                                      min_size=197,
-                                      data_format='channels_last',
-                                      require_flatten=include_top)
 
     if input_tensor is None:
         img_input = Input(shape=input_shape, name='data')

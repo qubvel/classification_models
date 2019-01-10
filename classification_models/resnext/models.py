@@ -2,6 +2,7 @@ from .builder import build_resnext
 from ..utils import load_model_weights
 from ..weights import weights_collection
 
+__all__ = ['ResNeXt50', 'ResNeXt101']
 
 # preprocessing function
 preprocess_input = lambda x: x

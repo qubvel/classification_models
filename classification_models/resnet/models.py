@@ -3,6 +3,8 @@ from ..utils import load_model_weights
 from ..weights import weights_collection
 from .params import get_model_params
 
+__all__ = ['ResNet18', 'ResNet34', 'ResNet50', 'ResNet101', 'ResNet152',
+           'SEResNet18', 'SEResNet34']
 
 # preprocessing function
 preprocess_input = lambda x: x
@@ -36,6 +38,7 @@ ResNet152 = _get_model('resnet152')
 # resnets with squeeze and excitation attention block
 SEResNet18 = _get_model('seresnet18')
 SEResNet34 = _get_model('seresnet34')
+
 # SEResNet50 = _get_model('seresnet50')
 # SEResNet101 = _get_model('seresnet101')
 # SEResNet152 = _get_model('seresnet152')

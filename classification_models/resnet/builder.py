@@ -8,7 +8,6 @@ from keras.layers import GlobalAveragePooling2D
 from keras.layers import ZeroPadding2D
 from keras.layers import Dense
 from keras.models import Model
-from keras.applications.imagenet_utils import _obtain_input_shape
 from keras.engine import get_source_inputs
 
 from .params import get_conv_params
@@ -17,9 +16,9 @@ from .params import get_bn_params
 from .blocks import residual_conv_block
 from .blocks import residual_bottleneck_block
 
-from ..common.se import channel_se_block
-from ..common.se import spatial_se_block
-from ..common.se import csse_block
+from ..common.blocks import SpatialSE
+from ..common.blocks import ChannelSE
+from ..common.blocks import ChannelSpatialSE
 
 
 def build_resnet(
@@ -34,13 +33,6 @@ def build_resnet(
     """
     TODO
     """
-    
-    # Determine proper input shape
-    input_shape = _obtain_input_shape(input_shape,
-                                      default_size=224,
-                                      min_size=197,
-                                      data_format='channels_last',
-                                      require_flatten=include_top)
 
     if input_tensor is None:
         img_input = Input(shape=input_shape, name='data')
@@ -60,11 +52,11 @@ def build_resnet(
 
     # choose attention block type
     if attention == 'sse':
-        attention_block = spatial_se_block()
+        attention_block = SpatialSE()
     elif attention == 'cse':
-        attention_block = channel_se_block(ratio=16)
+        attention_block = ChannelSE(reduction=16)
     elif attention == 'csse':
-        attention_block = csse_block(ratio=2)
+        attention_block = ChannelSpatialSE(reduction=2)
     elif attention is None:
         attention_block = None
     else:
