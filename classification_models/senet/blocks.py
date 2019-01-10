@@ -69,7 +69,51 @@ def SEResNeXtBottleneck(filters, reduction=16, strides=1, groups=32, base_width=
         x = kl.Activation('relu')(x)
 
         x = kl.ZeroPadding2D(1)(x)
-        x = GroupConv2D(width, (3, 3), strides=strides,
+        x = GroupConv2D(width, (3, 3), strides=strides, groups=groups,
+                        kernel_initializer='he_uniform', use_bias=False)(x)
+        x = kl.BatchNormalization(**bn_params)(x)
+        x = kl.Activation('relu')(x)
+
+        x = kl.Conv2D(filters, (1, 1), kernel_initializer='he_uniform', use_bias=False)(x)
+        x = kl.BatchNormalization(**bn_params)(x)
+
+        #  if number of filters or spatial dimensions changed
+        #  make same manipulations with residual connection
+        x_channels = K.int_shape(x)[-1]
+        r_channels = K.int_shape(residual)[-1]
+
+        if strides != 1 or x_channels != r_channels:
+
+            residual = kl.Conv2D(x_channels, (1, 1), strides=strides,
+                                 kernel_initializer='he_uniform', use_bias=False)(residual)
+            residual = kl.BatchNormalization(**bn_params)(residual)
+
+        # apply attention module
+        x = ChannelSE(reduction=reduction)(x)
+
+        # add residual connection
+        x = kl.Add()([x, residual])
+
+        x = kl.Activation('relu')(x)
+
+        return x
+    return layer
+
+
+def SEBottleneck(filters, reduction=16, strides=1, groups=64, **kwargs):
+
+    def layer(input):
+
+        x = input
+        residual = input
+
+        # bottleneck
+        x = kl.Conv2D(filters // 2, (1, 1), kernel_initializer='he_uniform', use_bias=False)(x)
+        x = kl.BatchNormalization(**bn_params)(x)
+        x = kl.Activation('relu')(x)
+
+        x = kl.ZeroPadding2D(1)(x)
+        x = GroupConv2D(filters, (3, 3), strides=strides, groups=groups,
                         kernel_initializer='he_uniform', use_bias=False)(x)
         x = kl.BatchNormalization(**bn_params)(x)
         x = kl.Activation('relu')(x)

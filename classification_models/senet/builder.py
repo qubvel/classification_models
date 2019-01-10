@@ -4,6 +4,7 @@ import keras.models as km
 
 from .blocks import SEResNeXtBottleneck
 from .blocks import SEResNetBottleneck
+from .blocks import SEBottleneck
 from .blocks import bn_params
 
 
@@ -15,10 +16,11 @@ def build_senet(
         block_type='resnet',
         reduction=16,
         init_filters=64,
-        input_3x3=True,
+        input_3x3=False,
         classes=1000,
         include_top=True,
         activation='softmax',
+        dropout=None,
         ):
     """
     Parameters
@@ -59,6 +61,8 @@ def build_senet(
         residual_block = SEResNetBottleneck
     elif block_type == 'resnext':
         residual_block = SEResNeXtBottleneck
+    elif block_type == 'senet':
+        residual_block = SEBottleneck
     else:
         raise ValueError('Block type not in ["resnet", "resnext", "senet"]')
 
@@ -116,6 +120,8 @@ def build_senet(
 
     if include_top:
         x = kl.GlobalAveragePooling2D()(x)
+        if dropout is not None:
+            kl.Dropout(dropout)(x)
         x = kl.Dense(classes)(x)
         x = kl.Activation(activation)(x)
 

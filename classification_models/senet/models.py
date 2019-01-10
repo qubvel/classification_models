@@ -3,7 +3,7 @@ from ..utils import load_model_weights
 from ..weights import weights_collection
 
 
-__all__ = ['SEResNet50', 'SEResNeXt50', 'SEResNet101', 'SEResNeXt101', 'SEResNet152']
+__all__ = ['SEResNet50', 'SEResNeXt50', 'SEResNet101', 'SEResNeXt101', 'SEResNet152', 'SENet154']
 
 
 models_params = {
@@ -52,12 +52,22 @@ models_params = {
         'reduction': 16,
         'init_filters': 64,
     },
+
+    'senet154': {
+        'repetitions': (3, 8, 36, 3),
+        'block_type': 'senet',
+        'input_3x3': True,
+        'groups': 64,
+        'reduction': 16,
+        'init_filters': 128,
+        'dropout': 0.2,
+    },
 }
 
 
 def _get_senet(name):
 
-    def classifier(input_shape=None, input_tensor=None, weights='imagenet', classes=1000, include_top=True):
+    def classifier(input_shape=None, input_tensor=None, weights=None, classes=1000, include_top=True):
 
         params = models_params[name]
 
@@ -82,3 +92,4 @@ SEResNet101 = _get_senet('seresnet101')
 SEResNet152 = _get_senet('seresnet152')
 SEResNeXt50 = _get_senet('seresnext50')
 SEResNeXt101 = _get_senet('seresnext101')
+SENet154 = _get_senet('senet154')
