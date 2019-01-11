@@ -20,6 +20,7 @@ Pretrained classification models for Keras
 - [ResNeXt](https://arxiv.org/abs/1611.05431) models with [squeeze and excitation](https://arxiv.org/abs/1709.01507) block:
   - SE-ResNeXt50 (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
   - SE-ResNeXt101 (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
+- [SENet154](https://arxiv.org/abs/1709.01507) (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
   
 | Model     | Classes |      Weights       | Acc@1 | Acc@5|
 |-----------|:-------:|:----------------------------:|:------:|:------:|
@@ -37,6 +38,7 @@ Pretrained classification models for Keras
 | SEResNet152  | 1000  | `imagenet` | 0.7834 |0.9408|
 | SEResNeXt50  | 1000  | `imagenet` | 0.7874 |0.9430|
 | SEResNeXt101  | 1000 | `imagenet` | 0.7988 |0.9487|
+| SENet  | 1000 | `imagenet` | 0.8106 |0.9524|
 
 ### Installation
 PyPi package:
