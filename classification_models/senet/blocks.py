@@ -100,7 +100,14 @@ def SEResNeXtBottleneck(filters, reduction=16, strides=1, groups=32, base_width=
     return layer
 
 
-def SEBottleneck(filters, reduction=16, strides=1, groups=64, **kwargs):
+def SEBottleneck(filters, reduction=16, strides=1, groups=64, is_first=False):
+
+    if is_first:
+        downsample_kernel_size = (1, 1)
+        padding = False
+    else:
+        downsample_kernel_size = (3, 3)
+        padding = True
 
     def layer(input):
 
@@ -127,8 +134,9 @@ def SEBottleneck(filters, reduction=16, strides=1, groups=64, **kwargs):
         r_channels = K.int_shape(residual)[-1]
 
         if strides != 1 or x_channels != r_channels:
-
-            residual = kl.Conv2D(x_channels, (1, 1), strides=strides,
+            if padding:
+                residual = kl.ZeroPadding2D(1)(residual)
+            residual = kl.Conv2D(x_channels, downsample_kernel_size, strides=strides,
                                  kernel_initializer='he_uniform', use_bias=False)(residual)
             residual = kl.BatchNormalization(**bn_params)(residual)
 

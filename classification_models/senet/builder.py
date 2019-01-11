@@ -117,7 +117,9 @@ def build_senet(
         for j in range(stage):
 
             # decrease spatial dimensions for each stage (except first, because we have maxpool before)
-            if i != 0 and j == 0:
+            if i == 0 and j == 0:
+                x = residual_block(filters, reduction=reduction, strides=1, groups=groups, is_first=True)(x)
+            elif i != 0 and j == 0:
                 x = residual_block(filters, reduction=reduction, strides=2, groups=groups)(x)
             else:
                 x = residual_block(filters, reduction=reduction, strides=1, groups=groups)(x)

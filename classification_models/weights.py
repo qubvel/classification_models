@@ -291,4 +291,24 @@ weights_collection = [
         'md5': 'e48708cbe40071cc3356016c37f6c9c7',
     },
 
+    {
+        'model': 'senet154',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': True,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/senet154_imagenet_1000.h5',
+        'name': 'senet154_imagenet_1000.h5',
+        'md5': 'c8eac0e1940ea4d8a2e0b2eb0cdf4e75',
+    },
+
+    {
+        'model': 'seresnext101',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': False,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/senet154_imagenet_1000_no_top.h5',
+        'name': 'senet154_imagenet_1000_no_top.h5',
+        'md5': 'd854ff2cd7e6a87b05a8124cd283e0f2',
+    },
+
 ]
