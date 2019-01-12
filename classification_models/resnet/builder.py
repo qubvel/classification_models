@@ -8,15 +8,18 @@ from keras.layers import GlobalAveragePooling2D
 from keras.layers import ZeroPadding2D
 from keras.layers import Dense
 from keras.models import Model
-from keras.applications.imagenet_utils import _obtain_input_shape
 from keras.engine import get_source_inputs
 
 from .params import get_conv_params
 from .params import get_bn_params
-from .blocks import basic_conv_block
-from .blocks import basic_identity_block
-from .blocks import conv_block as usual_conv_block
-from .blocks import identity_block as usual_identity_block
+
+from .blocks import residual_conv_block
+from .blocks import residual_bottleneck_block
+
+from ..common.blocks import SpatialSE
+from ..common.blocks import ChannelSE
+from ..common.blocks import ChannelSpatialSE
+
 
 def build_resnet(
      repetitions=(2, 2, 2, 2),
@@ -24,18 +27,12 @@ def build_resnet(
      input_tensor=None,
      input_shape=None,
      classes=1000,
-     block_type='usual'):
+     block_type='conv',
+     attention=None):
     
     """
     TODO
     """
-    
-    # Determine proper input shape
-    input_shape = _obtain_input_shape(input_shape,
-                                      default_size=224,
-                                      min_size=197,
-                                      data_format='channels_last',
-                                      require_flatten=include_top)
 
     if input_tensor is None:
         img_input = Input(shape=input_shape, name='data')
@@ -44,20 +41,33 @@ def build_resnet(
             img_input = Input(tensor=input_tensor, shape=input_shape)
         else:
             img_input = input_tensor
-    
+
+    # choose residual block type
+    if block_type == 'conv':
+        residual_block = residual_conv_block
+    elif block_type == 'bottleneck':
+        residual_block = residual_bottleneck_block
+    else:
+        raise ValueError('Block type "{}" not in ["conv", "bottleneck"]'.format(block_type))
+
+    # choose attention block type
+    if attention == 'sse':
+        attention_block = SpatialSE()
+    elif attention == 'cse':
+        attention_block = ChannelSE(reduction=16)
+    elif attention == 'csse':
+        attention_block = ChannelSpatialSE(reduction=2)
+    elif attention is None:
+        attention_block = None
+    else:
+        raise ValueError('Supported attention blocks are: sse, cse, csse. Got "{}".'.format(attention))
+
     # get parameters for model layers
     no_scale_bn_params = get_bn_params(scale=False)
     bn_params = get_bn_params()
     conv_params = get_conv_params()
     init_filters = 64
 
-    if block_type == 'basic':
-        conv_block = basic_conv_block
-        identity_block = basic_identity_block
-    else:
-        conv_block = usual_conv_block
-        identity_block = usual_identity_block
-    
     # resnet bottom
     x = BatchNormalization(name='bn_data', **no_scale_bn_params)(img_input)
     x = ZeroPadding2D(padding=(3, 3))(x)
@@ -75,13 +85,16 @@ def build_resnet(
             
             # first block of first stage without strides because we have maxpooling before
             if block == 0 and stage == 0:
-                x = conv_block(filters, stage, block, strides=(1, 1))(x)
+                x = residual_block(filters, stage, block, strides=(1, 1),
+                                   cut='post', attention=attention_block)(x)
                 
             elif block == 0:
-                x = conv_block(filters, stage, block, strides=(2, 2))(x)
+                x = residual_block(filters, stage, block, strides=(2, 2),
+                                   cut='post', attention=attention_block)(x)
                 
             else:
-                x = identity_block(filters, stage, block)(x)
+                x = residual_block(filters, stage, block, strides=(1, 1),
+                                   cut='pre', attention=attention_block)(x)
                 
     x = BatchNormalization(name='bn1', **bn_params)(x)
     x = Activation('relu', name='relu1')(x)

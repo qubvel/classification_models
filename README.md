@@ -11,6 +11,14 @@ Pretrained classification models for Keras
 - [ResNeXt](https://arxiv.org/abs/1611.05431) models converted from MXNet:
   - ResNeXt50
   - ResNeXt101
+- [ResNet](https://arxiv.org/abs/1512.03385) models with [squeeze and excitation](https://arxiv.org/abs/1709.01507) block:
+  - SE-ResNet50 (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
+  - SE-ResNet101 (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
+  - SE-ResNet152 (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
+- [ResNeXt](https://arxiv.org/abs/1611.05431) models with [squeeze and excitation](https://arxiv.org/abs/1709.01507) block:
+  - SE-ResNeXt50 (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
+  - SE-ResNeXt101 (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
+- [SENet154](https://arxiv.org/abs/1709.01507) (converted from [PyTorch](https://github.com/Cadene/pretrained-models.pytorch))
   
 | Model     | Classes |      Weights       | Acc@1 | Acc@5|
 |-----------|:-------:|:----------------------------:|:------:|:------:|
@@ -21,6 +29,12 @@ Pretrained classification models for Keras
 | ResNet152 | 1000<br>11221 | `imagenet`<br>`imagenet11k` | 0.7689<br>-  | 0.9331<br>-|
 | ResNeXt50 | 1000 | `imagenet` | -  |- |
 | ResNeXt101 | 1000 | `imagenet` | -  |- |
+| SEResNet50   | 1000  | `imagenet` | 0.7644 |0.9302|
+| SEResNet101  | 1000  | `imagenet` | 0.7792 |0.9400|
+| SEResNet152  | 1000  | `imagenet` | 0.7834 |0.9408|
+| SEResNeXt50  | 1000  | `imagenet` | 0.7874 |0.9430|
+| SEResNeXt101  | 1000 | `imagenet` | 0.7988 |0.9487|
+| SENet154  | 1000 | `imagenet` | 0.8106 |0.9524|
 
 ### Installation
 PyPi package:
