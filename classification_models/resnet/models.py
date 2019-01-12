@@ -10,8 +10,8 @@ __all__ = ['ResNet18', 'ResNet34', 'ResNet50', 'ResNet101', 'ResNet152',
 preprocess_input = lambda x: x
 
 
-def _get_model(name):
-    def builder(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
+def _get_resnet(name):
+    def classifier(input_shape, input_tensor=None, weights=None, classes=1000, include_top=True):
         model_params = get_model_params(name)
         model = build_resnet(input_tensor=input_tensor,
                              input_shape=input_shape,
@@ -25,20 +25,19 @@ def _get_model(name):
             load_model_weights(weights_collection, model, weights, classes, include_top)
 
         return model
-    return builder
+    return classifier
 
 
 # classic resnet models
-ResNet18 = _get_model('resnet18')
-ResNet34 = _get_model('resnet34')
-ResNet50 = _get_model('resnet50')
-ResNet101 = _get_model('resnet101')
-ResNet152 = _get_model('resnet152')
+ResNet18 = _get_resnet('resnet18')
+ResNet34 = _get_resnet('resnet34')
+ResNet50 = _get_resnet('resnet50')
+ResNet101 = _get_resnet('resnet101')
+ResNet152 = _get_resnet('resnet152')
 
 # resnets with squeeze and excitation attention block
-SEResNet18 = _get_model('seresnet18')
-SEResNet34 = _get_model('seresnet34')
-
+# SEResNet18 = _get_model('seresnet18')
+# SEResNet34 = _get_model('seresnet34')
 # SEResNet50 = _get_model('seresnet50')
 # SEResNet101 = _get_model('seresnet101')
 # SEResNet152 = _get_model('seresnet152')

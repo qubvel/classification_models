@@ -302,7 +302,7 @@ weights_collection = [
     },
 
     {
-        'model': 'seresnext101',
+        'model': 'senet154',
         'dataset': 'imagenet',
         'classes': 1000,
         'include_top': False,
