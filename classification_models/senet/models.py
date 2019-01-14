@@ -1,9 +1,14 @@
+from keras.applications import imagenet_utils
 from .builder import build_senet
 from ..utils import load_model_weights
 from ..weights import weights_collection
 
 
-__all__ = ['SEResNet50', 'SEResNeXt50', 'SEResNet101', 'SEResNeXt101', 'SEResNet152', 'SENet154']
+__all__ = ['SEResNet50', 'SEResNeXt50', 'SEResNet101', 'SEResNeXt101',
+           'SEResNet152', 'SENet154', 'preprocess_input']
+
+
+preprocess_input = lambda x: imagenet_utils.preprocess_input(x, mode='torch')
 
 
 models_params = {
