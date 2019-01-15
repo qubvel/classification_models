@@ -17,6 +17,18 @@ Trained on [ImageNet](http://www.image-net.org/) classification models. [Keras](
 - [MobileNet v2](https://arxiv.org/abs/1801.04381)
 
 ### Specification 
+The top-k accuracy were obtained using center single crop on the 
+2012 ILSVRC ImageNet validation set and may differ from the original ones. 
+The input size used was 224x224 (min size 256) for all models except:
+ - NASNetLarge 331x331 (352)
+ - InceptionV3 299x299 (324)
+ - InceptionResNetV2 299x299 (324)
+ - Xception 299x299 (324)  
+ 
+The inference \*Time was evaluated on 500 batches of size 16. 
+All models have been tested using same hardware and software. 
+Time is listed just for comparison of performance.
+
 | Model           |Acc@1|Acc@5|Time*|Source|
 |-----------------|:---:|:---:|:---:|------|
 |densenet121      |74.67|92.04|27.66|[keras](https://github.com/keras-team/keras-applications)|
