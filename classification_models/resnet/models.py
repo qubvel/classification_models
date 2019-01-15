@@ -4,7 +4,7 @@ from ..weights import weights_collection
 from .params import get_model_params
 
 __all__ = ['ResNet18', 'ResNet34', 'ResNet50', 'ResNet101', 'ResNet152',
-           'SEResNet18', 'SEResNet34']
+           'SEResNet18', 'SEResNet34', 'preprocess_input']
 
 # preprocessing function
 preprocess_input = lambda x: x
@@ -36,15 +36,15 @@ ResNet101 = _get_resnet('resnet101')
 ResNet152 = _get_resnet('resnet152')
 
 # resnets with squeeze and excitation attention block
-# SEResNet18 = _get_model('seresnet18')
-# SEResNet34 = _get_model('seresnet34')
-# SEResNet50 = _get_model('seresnet50')
-# SEResNet101 = _get_model('seresnet101')
-# SEResNet152 = _get_model('seresnet152')
+SEResNet18 = _get_resnet('seresnet18')
+SEResNet34 = _get_resnet('seresnet34')
+# SEResNet50 = _get_resnet('seresnet50')
+# SEResNet101 = _get_resnet('seresnet101')
+# SEResNet152 = _get_resnet('seresnet152')
 #
 # # resnets with concurrent squeeze and excitation attention block
-# CSSEResNet18 = _get_model('csseresnet18')
-# CSSEResNet34 = _get_model('csseresnet34')
-# CSSEResNet50 = _get_model('csseresnet50')
-# CSSEResNet101 = _get_model('csseresnet101')
-# CSSEResNet152 = _get_model('csseresnet152')
+# CSSEResNet18 = _get_resnet('csseresnet18')
+# CSSEResNet34 = _get_resnet('csseresnet34')
+# CSSEResNet50 = _get_resnet('csseresnet50')
+# CSSEResNet101 = _get_resnet('csseresnet101')
+# CSSEResNet152 = _get_resnet('csseresnet152')

@@ -1,0 +1,3 @@
+[submodule "classification_models/keras_applications/keras_applications"]
+	path = classification_models/keras_applications/keras_applications
+	url = https://github.com/qubvel/keras-applications
