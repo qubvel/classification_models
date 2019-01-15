@@ -311,4 +311,44 @@ weights_collection = [
         'md5': 'd854ff2cd7e6a87b05a8124cd283e0f2',
     },
 
+    {
+        'model': 'seresnet18',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': True,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/seresnet18_imagenet_1000.h5',
+        'name': 'seresnet18_imagenet_1000.h5',
+        'md5': '9a925fd96d050dbf7cc4c54aabfcf749',
+    },
+
+    {
+        'model': 'seresnet18',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': False,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/seresnet18_imagenet_1000_no_top.h5',
+        'name': 'seresnet18_imagenet_1000_no_top.h5',
+        'md5': 'a46e5cd4114ac946ecdc58741e8d92ea',
+    },
+
+    {
+        'model': 'seresnet34',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': True,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/seresnet34_imagenet_1000.h5',
+        'name': 'seresnet34_imagenet_1000.h5',
+        'md5': '863976b3bd439ff0cc05c91821218a6b',
+    },
+
+    {
+        'model': 'seresnet34',
+        'dataset': 'imagenet',
+        'classes': 1000,
+        'include_top': False,
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/seresnet34_imagenet_1000_no_top.h5',
+        'name': 'seresnet34_imagenet_1000_no_top.h5',
+        'md5': '3348fd049f1f9ad307c070ff2b6ec4cb',
+    },
+
 ]

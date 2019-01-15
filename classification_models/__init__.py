@@ -20,6 +20,8 @@ class Classifiers:
         'resnet152': [rn.ResNet152, rn.preprocess_input],
 
         # SE-Nets
+        'seresnet18': [rn.SEResNet18, rn.preprocess_input],
+        'seresnet34': [rn.SEResNet34, rn.preprocess_input],
         'seresnet50': [sn.SEResNet50, sn.preprocess_input],
         'seresnet101': [sn.SEResNet101, sn.preprocess_input],
         'seresnet152': [sn.SEResNet152, sn.preprocess_input],
