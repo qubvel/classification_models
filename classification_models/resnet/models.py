@@ -3,8 +3,7 @@ from ..utils import load_model_weights
 from ..weights import weights_collection
 from .params import get_model_params
 
-__all__ = ['ResNet18', 'ResNet34', 'ResNet50', 'ResNet101', 'ResNet152',
-           'SEResNet18', 'SEResNet34']
+__all__ = ['ResNet18', 'ResNet34', 'ResNet50', 'ResNet101', 'ResNet152']
 
 # preprocessing function
 preprocess_input = lambda x: x

@@ -3,14 +3,14 @@ import keras.layers as kl
 
 
 def GroupConv2D(filters,
-                kernel_size,
-                strides=(1, 1),
-                groups=32,
-                kernel_initializer='he_uniform',
-                use_bias=True,
-                activation='linear',
-                padding='valid',
-                **kwargs):
+                   kernel_size,
+                   strides=(1, 1),
+                   groups=32,
+                   kernel_initializer='he_uniform',
+                   use_bias=True,
+                   activation='linear',
+                   padding='valid',
+                   **kwargs):
     """
     Grouped Convolution Layer implemented as a function via Lambda,
     Conv2D and Concatenate layers. Split filters to groups, apply Conv2D and concatenate back.
@@ -37,26 +37,31 @@ def GroupConv2D(filters,
         rows and cols values might have changed due to padding.
 
     """
-    def layer(input_tensor):
 
+    def layer(input_tensor):
         inp_ch = int(K.int_shape(input_tensor)[-1] // groups)  # input grouped channels
         out_ch = int(filters // groups)  # output grouped channels
 
-        blocks = []
-        for c in range(groups):
-            x = kl.Lambda(lambda z: z[..., c*inp_ch:(c + 1)*inp_ch])(input_tensor)
-            x = kl.Conv2D(out_ch,
-                          kernel_size,
-                          strides=strides,
-                          kernel_initializer=kernel_initializer,
-                          use_bias=use_bias,
-                          activation=activation,
-                          padding=padding,
-                          **kwargs)(x)
-            blocks.append(x)
+        x = kl.DepthwiseConv2D(kernel_size,
+                               strides=strides,
+                               depth_multiplier=out_ch,
+                               kernel_initializer=kernel_initializer,
+                               use_bias=use_bias,
+                               activation=activation,
+                               padding=padding,
+                               **kwargs)(input_tensor)
 
-        x = kl.Concatenate(axis=-1)(blocks)
+        def reshape(x):
+            import tensorflow as tf
+            x = tf.stack(tf.split(x, groups, axis=-1), axis=-2)
+            x = tf.stack(tf.split(x, inp_ch, axis=-1), axis=-2)
+            x = K.sum(x, axis=4)
+            x = tf.squeeze(tf.concat(tf.split(x, groups, axis=-2), axis=-1), axis=-2)
+            return x
+
+        x = kl.Lambda(reshape)(x)
         return x
+
     return layer
 
 
