@@ -1,0 +1,155 @@
+import os
+import six
+import random
+import pytest
+import logging
+import numpy as np
+import keras.backend as K
+
+from skimage.io import imread
+from keras.applications.imagenet_utils import decode_predictions
+from classification_models import Classifiers
+
+logging.basicConfig(level=logging.DEBUG)
+log = logging.getLogger()
+
+
+MODELS = Classifiers.names()
+
+RESNET_LIST = [
+    ('resnet18', 512),
+    ('resnet34', 512),
+    ('resnet50', 2048),
+    ('resnet101', 2048),
+    ('resnet152', 2048),
+]
+
+SERESNET_LIST_1 = [
+    ('seresnet18', 512),
+    ('seresnet34', 512),
+]
+
+SERESNET_LIST_2 = [
+    ('seresnet50', 2048),
+    ('seresnet101', 2048),
+    ('seresnet152', 2048),
+]
+
+SERESNEXT_LIST = [
+    ('seresnext50', 2048),
+    ('seresnext101', 2048),
+]
+
+SENET_LIST = [
+    ('senet154', 2048)
+]
+
+
+def keras_test(func):
+    """Function wrapper to clean up after TensorFlow tests.
+    # Arguments
+        func: test function to clean up after.
+    # Returns
+        A function wrapping the input function.
+    """
+    @six.wraps(func)
+    def wrapper(*args, **kwargs):
+        output = func(*args, **kwargs)
+        K.clear_session()
+        return output
+    return wrapper
+
+
+def _select_names(names):
+    is_full = os.environ.get('FULL_TEST', False)
+    if not is_full:
+        return [random.choice(names)]
+    else:
+        return names
+
+
+def _get_img():
+    """Read image for processing"""
+    x = imread('./tests/data/dog.jpg')
+    return np.expand_dims(x, axis=0)
+
+
+def _get_output_shape(model, preprocess_input=None):
+    if preprocess_input is None:
+        return model.output_shape
+    else:
+        x = _get_img()
+        x = preprocess_input(x)
+        return model.output_shape, model.predict(x)
+
+
+@keras_test
+def _test_application(name, input_shape=(224, 224, 3), last_dim=1000, label='bull_mastiff'):
+
+    classifier, preprocess_input = Classifiers.get(name)
+    model = classifier(input_shape=input_shape, weights='imagenet')
+
+    output_shape, preds = _get_output_shape(model, preprocess_input)
+    assert output_shape == (None, last_dim)
+
+    names = [p[1] for p in decode_predictions(preds)[0]]
+    assert label in names[:3]
+
+
+@keras_test
+def _test_application_notop(name, input_shape=(None, None, 3), last_dim=1024):
+    classifier = Classifiers.get_classifier(name)
+    model = classifier(input_shape=input_shape, weights=None, include_top=False)
+    assert model.output_shape == (None, None, None, last_dim)
+
+
+@keras_test
+def _test_application_variable_input_channels(name, last_dim=1024):
+    _test_application_notop(name, input_shape=(None, None, 1), last_dim=last_dim)
+    _test_application_notop(name, input_shape=(None, None, 4), last_dim=last_dim)
+
+
+@pytest.mark.parametrize('name', MODELS)
+def test_imports(name):
+    data = Classifiers.get(name)
+    assert data is not None
+
+
+@pytest.mark.parametrize(['name', 'last_dim'], _select_names(RESNET_LIST))
+def test_resnets(name, last_dim):
+    _test_application(name)
+    _test_application_notop(name, last_dim=last_dim)
+    _test_application_variable_input_channels(name, last_dim=last_dim)
+
+
+@pytest.mark.parametrize(['name', 'last_dim'], _select_names(SERESNET_LIST_1))
+def test_seresnets_1(name, last_dim):
+    _test_application(name)
+    _test_application_notop(name, last_dim=last_dim)
+    _test_application_variable_input_channels(name, last_dim=last_dim)
+
+
+@pytest.mark.parametrize(['name', 'last_dim'], _select_names(SERESNET_LIST_2))
+def test_seresnets_2(name, last_dim):
+    _test_application(name)
+    _test_application_notop(name, last_dim=last_dim)
+    _test_application_variable_input_channels(name, last_dim=last_dim)
+
+
+@pytest.mark.parametrize(['name', 'last_dim'], _select_names(SERESNEXT_LIST))
+def test_seresnexts(name, last_dim):
+    _test_application(name)
+    _test_application_notop(name, last_dim=last_dim)
+    _test_application_variable_input_channels(name, last_dim=last_dim)
+
+
+@pytest.mark.parametrize(['name', 'last_dim'], _select_names(SENET_LIST))
+def test_senets(name, last_dim):
+    if not os.environ.get('TRAVIS', False):  # perform only local tests
+        _test_application(name)
+        _test_application_notop(name, last_dim=last_dim)
+        _test_application_variable_input_channels(name, last_dim=last_dim)
+
+
+if __name__ == '__main__':
+    pytest.main([__file__])
