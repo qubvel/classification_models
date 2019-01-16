@@ -23,12 +23,12 @@ VERSION = None
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'keras>=2.1.0', 'scikit-image',
+    'keras>=2.1.0',
 ]
 
 # What packages are optional?
 EXTRAS = {
-    # 'fancy feature': ['django'],
+    'tests': ['scikit-image', 'pytest'],
 }
 
 # The rest you shouldn't have to touch too much :)
