@@ -5,7 +5,6 @@ language: python
 matrix:
     include:
         # different pythons
-        - python: 3.4
         - python: 3.5
 
         # different keras versions
