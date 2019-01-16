@@ -5,13 +5,12 @@ language: python
 matrix:
     include:
         # different pythons
+        - python: 3.4
         - python: 3.5
-        - python: 3.6
-        - python: 3.7
 
         # different keras versions
         - python: 3.6
-          env: KERAS_VERSION=latest
+          env: KERAS_VERSION=head
         - python: 3.6
           env: KERAS_VERSION=2.1.5
         - python: 3.6
@@ -43,13 +42,12 @@ install:
   - pip install --only-binary=numpy,scipy numpy nose scipy matplotlib h5py theano scikit-image
 
   # install keras
-  - if [[ $KERAS_VERSION == "latest" ]]; then
-      pip install --no-deps git+https://github.com/keras-team/keras.git;
-    elif [ -z $KERAS_VERSION ]
-    then
-      pip install keras;
+  - if [[ $KERAS_VERSION == "head" ]]; then
+      pip install --no-deps git+https://github.com/keras-team/keras.git
+    elif [ -z $KERAS_VERSION ]; then
+      pip install keras
     else
-      pip install keras==$KERAS_VERSION;
+      pip install keras==$KERAS_VERSION
     fi
 
   - conda install mkl mkl-service
