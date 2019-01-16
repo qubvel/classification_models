@@ -70,7 +70,7 @@ def _select_names(names):
 
 def _get_img():
     """Read image for processing"""
-    x = imread('./tests/data/dog.jpg')
+    x = imread('./tests/data/dog.jpg').astype('float32')  # cast for keras 2.1.x compatibility
     return np.expand_dims(x, axis=0)
 
 
