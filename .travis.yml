@@ -30,7 +30,7 @@ install:
 
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pytest pandas
   - source activate test-environment
-  - pip install --only-binary=numpy,scipy numpy nose scipy matplotlib h5py theano keras scikit-images
+  - pip install --only-binary=numpy,scipy numpy nose scipy matplotlib h5py theano keras scikit-image
   - conda install mkl mkl-service
 
   # set library path
@@ -59,15 +59,6 @@ install:
   - if [ $(git diff --name-only HEAD~1 | wc -l) == "1" ] && [[ "$(git diff --name-only HEAD~1)" == *"md" ]]; then
       export DOC_ONLY_CHANGED=True;
     fi
-
-  #install open mpi
-  - rm -rf ~/mpi
-  - mkdir ~/mpi
-  - pushd ~/mpi
-  - wget http://cntk.ai/PythonWheel/ForKeras/depends/openmpi_1.10-3.zip
-  - unzip ./openmpi_1.10-3.zip
-  - sudo dpkg -i openmpi_1.10-3.deb
-  - popd
 
 # command to run tests
 script:
