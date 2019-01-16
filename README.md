@@ -1,3 +1,4 @@
+[![PyPI version](https://badge.fury.io/py/image-classifiers.svg)](https://badge.fury.io/py/image-classifiers) [![Build Status](https://travis-ci.com/qubvel/classification_models.svg?branch=master)](https://travis-ci.com/qubvel/classification_models) 
 # Classification models Zoo
 Trained on [ImageNet](http://www.image-net.org/) classification models. [Keras](https://keras.io/).
 
@@ -73,9 +74,9 @@ Time is listed just for comparison of performance.
 ### Installation
 
 Requirements:
-- python 3.x
-- keras >= 2.x
-- tensorflow >= 1.4
+- python >= 3.5
+- keras >= 2.1.0
+- tensorflow >= 1.9
 
 ###### Note
     This library does not have TensorFlow in a requirements for installation. 
@@ -99,7 +100,7 @@ $ pip install git+https://github.com/qubvel/classification_models.git
 ```python
 from classification_models.resnet import ResNet18, preprocess_input
 
-model = ResNet18((224, 224, 3), weight='imagenet')
+model = ResNet18((224, 224, 3), weights='imagenet')
 ```
 
 2) Using `Classifiers` container
@@ -107,7 +108,7 @@ model = ResNet18((224, 224, 3), weight='imagenet')
 from classification_models import Classifiers
 
 classifier, preprocess_input = Classifiers.get('resnet18')
-model = classifier((224, 224, 3), weight='imagenet')
+model = classifier((224, 224, 3), weights='imagenet')
 ```
 This way take one additional line of code, however if you would 
 like to train several models you do not need to import them directly, 
