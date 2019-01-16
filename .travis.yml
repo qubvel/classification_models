@@ -4,8 +4,18 @@ language: python
 
 matrix:
     include:
-        - python: 3.6
+        # different pythons
         - python: 3.5
+        - python: 3.6
+        - python: 3.7
+
+        # different keras versions
+        - python: 3.6
+          env: KERAS_HEAD=true
+        - python: 3.6
+          env: KERAS_VERSION=2.1.5
+        - python: 3.6
+          env: KERAS_VERSION=2.2.4
 
 git:
   submodules: true
@@ -30,22 +40,24 @@ install:
 
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pytest pandas
   - source activate test-environment
-  - pip install --only-binary=numpy,scipy numpy nose scipy matplotlib h5py theano keras scikit-image
+  - pip install --only-binary=numpy,scipy numpy nose scipy matplotlib h5py theano scikit-image
+
+  # install keras
+  - if [[ $KERAS_HEAD == "true" ]]; then
+      pip install --no-deps git+https://github.com/keras-team/keras.git;
+    elif [ -z $KERAS_VERSION ]
+    then
+      pip install keras
+    else
+      pip install keras==$KERAS_VERSION
+    fi
+
   - conda install mkl mkl-service
 
   # set library path
   - export LD_LIBRARY_PATH=$HOME/miniconda/envs/test-environment/lib/:$LD_LIBRARY_PATH
 
-  # install PIL
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      conda install pil;
-    elif [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
-      conda install Pillow;
-    fi
-
-  - if [[ $KERAS_HEAD == "true" ]]; then
-      pip install --no-deps git+https://github.com/keras-team/keras.git;
-    fi
+  # install lib in develop mode
   - pip install -e .[tests]
 
   # install TensorFlow (CPU version).
