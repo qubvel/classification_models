@@ -63,6 +63,12 @@ Time is listed just for comparison of performance.
 |mobilenet        |70.36|89.39|15.50|[keras](https://github.com/keras-team/keras-applications)|
 |mobilenetv2      |71.63|90.35|18.31|[keras](https://github.com/keras-team/keras-applications)|
 
+###### Note
+[SE-]ResNeXt and SENet models build with `GroupConvolution` which 
+is not implemented in Keras/TensorFlow. For correct work of `load_model` function 
+custom object is used. To be able to load one of these models from file, please, 
+import `classification_models` before.
+
 ### Weights
 | Name                    |Classes   | Models    |
 |-------------------------|:--------:|:---------:|
