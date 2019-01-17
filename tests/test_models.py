@@ -8,11 +8,11 @@ import keras.backend as K
 
 from skimage.io import imread
 from keras.applications.imagenet_utils import decode_predictions
+from keras.models import load_model
 from classification_models import Classifiers
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger()
-
 
 MODELS = Classifiers.names()
 
@@ -52,11 +52,13 @@ def keras_test(func):
     # Returns
         A function wrapping the input function.
     """
+
     @six.wraps(func)
     def wrapper(*args, **kwargs):
         output = func(*args, **kwargs)
         K.clear_session()
         return output
+
     return wrapper
 
 
@@ -84,8 +86,25 @@ def _get_output_shape(model, preprocess_input=None):
 
 
 @keras_test
-def _test_application(name, input_shape=(224, 224, 3), last_dim=1000, label='bull_mastiff'):
+def _test_save_load(name, input_shape=(224, 224, 3)):
+    # create first model
+    classifier, preprocess_input = Classifiers.get(name)
+    model1 = classifier(input_shape=input_shape, weights=None)
+    model1.save('model.h5')
 
+    # load same model from file
+    model2 = load_model('model.h5', compile=False)
+    os.remove('model.h5')
+
+    x = _get_img()
+    y1 = model1.predict(x)
+    y2 = model2.predict(x)
+
+    assert np.allclose(y1, y2)
+
+
+@keras_test
+def _test_application(name, input_shape=(224, 224, 3), last_dim=1000, label='bull_mastiff'):
     classifier, preprocess_input = Classifiers.get(name)
     model = classifier(input_shape=input_shape, weights='imagenet')
 
@@ -141,6 +160,7 @@ def test_seresnexts(name, last_dim):
     _test_application(name)
     _test_application_notop(name, last_dim=last_dim)
     _test_application_variable_input_channels(name, last_dim=last_dim)
+    _test_save_load(name)
 
 
 @pytest.mark.parametrize(['name', 'last_dim'], _select_names(SENET_LIST))
