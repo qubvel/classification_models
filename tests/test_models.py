@@ -171,7 +171,8 @@ def test_senets(name, last_dim):
 
         
 def test_save_load():
-    _test_save_load(SERESNEXT_LIST[0])
+    name, last_dim = SERESNEXT_LIST[0]
+    _test_save_load(name)
 
     
 if __name__ == '__main__':
