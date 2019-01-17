@@ -160,7 +160,6 @@ def test_seresnexts(name, last_dim):
     _test_application(name)
     _test_application_notop(name, last_dim=last_dim)
     _test_application_variable_input_channels(name, last_dim=last_dim)
-    _test_save_load(name)
 
 
 @pytest.mark.parametrize(['name', 'last_dim'], _select_names(SENET_LIST))
@@ -170,6 +169,10 @@ def test_senets(name, last_dim):
         _test_application_notop(name, last_dim=last_dim)
         _test_application_variable_input_channels(name, last_dim=last_dim)
 
+        
+def test_save_load():
+    _test_save_load(SERESNEXT_LIST[0])
 
+    
 if __name__ == '__main__':
     pytest.main([__file__])
