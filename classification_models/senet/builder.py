@@ -73,7 +73,7 @@ def build_senet(
         if not K.is_keras_tensor(input_tensor):
             input = kl.Input(tensor=input_tensor, shape=input_shape)
         else:
-            input = kl.input_tensor
+            input = input_tensor
 
     x = input
 
