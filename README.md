@@ -163,8 +163,8 @@ n_classes = 10
 
 # build model
 base_model = ResNet18(input_shape=(224,224,3), weights='imagenet', include_top=False)
-x = keras.layers.AveragePooling2D((7,7))(base_model.output)
-output = keras.layers.Dense(n_classes)(x)
+x = keras.layers.GlobalAveragePooling2D()(base_model.output)
+output = keras.layers.Dense(n_classes, activation='softmax')(x)
 model = keras.models.Model(inputs=[base_model.input], outputs=[output])
 
 # train
