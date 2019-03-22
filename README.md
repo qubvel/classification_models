@@ -127,7 +127,7 @@ You can get all model names using `Classifiers.names()` method.
 ```python
 import numpy as np
 from skimage.io import imread
-from skimage.transfrom import resize
+from skimage.transform import resize
 from keras.applications.imagenet_utils import decode_predictions
 
 from classification_models.resnet import ResNet18, preprocess_input
