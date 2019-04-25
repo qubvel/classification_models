@@ -68,8 +68,8 @@ weights_collection = [
         'dataset': 'imagenet11k-places365ch',
         'classes': 11586,
         'include_top': True,
-        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet50_places365_11586.h5',
-        'name': 'resnet50_places365_11586.h5',
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet50_imagenet11k-places365ch_11586.h5',
+        'name': 'resnet50_imagenet11k-places365ch_11586.h5',
         'md5': 'bb8963db145bc9906452b3d9c9917275',
     },
 
@@ -78,8 +78,8 @@ weights_collection = [
         'dataset': 'imagenet11k-places365ch',
         'classes': 11586,
         'include_top': False,
-        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet50_imagenet_11586_no_top.h5',
-        'name': 'resnet50_imagenet_11586_no_top.h5',
+        'url': 'https://github.com/qubvel/classification_models/releases/download/0.0.1/resnet50_imagenet11k-places365ch_11586_no_top.h5',
+        'name': 'resnet50_imagenet11k-places365ch_11586_no_top.h5',
         'md5': 'd8bf4e7ea082d9d43e37644da217324a',
     },
 
