@@ -76,6 +76,15 @@ def GroupConv2D(filters,
     return layer
 
 
+def expand_dims(x, channels_axis):
+    if channels_axis == 3:
+        return x[:, None, None, :]
+    elif channels_axis == 1:
+        return x[:, :, None, None]
+    else:
+        raise ValueError("Slice axis should be in (1, 3), got {}.".format(channels_axis))
+
+
 def ChannelSE(reduction=16, **kwargs):
     """
     Squeeze and Excitation block, reimplementation inspired by
@@ -87,7 +96,6 @@ def ChannelSE(reduction=16, **kwargs):
     """
     backend, layers, models, keras_utils = get_submodules_from_kwargs(kwargs)
     channels_axis = 3 if backend.image_data_format() == 'channels_last' else 1
-    spatial_axes = [1, 2] if backend.image_data_format() == 'channels_last' else [2, 3]
 
     def layer(input_tensor):
         # get number of channels/filters
@@ -96,8 +104,8 @@ def ChannelSE(reduction=16, **kwargs):
         x = input_tensor
 
         # squeeze and excitation block in PyTorch style with
-        # custom global average pooling where keepdims=True
-        x = layers.Lambda(lambda a: backend.mean(a, axis=spatial_axes, keepdims=True))(x)
+        x = layers.GlobalAveragePooling2D()(x)
+        x = layers.Lambda(expand_dims, arguments=channels_axis)(x)
         x = layers.Conv2D(channels // reduction, (1, 1), kernel_initializer='he_uniform')(x)
         x = layers.Activation('relu')(x)
         x = layers.Conv2D(channels, (1, 1), kernel_initializer='he_uniform')(x)

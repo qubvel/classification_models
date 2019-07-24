@@ -338,7 +338,7 @@ MODELS_PARAMS = {
     ),
 
     'seresnet152': ModelParams(
-        'seresnet50', repetitions=(3, 8, 36, 3), residual_block=SEResNetBottleneck,
+        'seresnet152', repetitions=(3, 8, 36, 3), residual_block=SEResNetBottleneck,
         groups=1, reduction=16, init_filters=64, input_3x3=False, dropout=None,
     ),
 
