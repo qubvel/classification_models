@@ -432,7 +432,7 @@ def SENet154(input_shape=None, input_tensor=None, weights=None, classes=1000, in
 
 
 def preprocess_input(x, **kwargs):
-    return imagenet_utils.preprocess_input(x, mode='torch')
+    return imagenet_utils.preprocess_input(x, mode='torch', **kwargs)
 
 
 setattr(SEResNet50, '__doc__', SENet.__doc__)
