@@ -10,10 +10,10 @@ def _find_weights(model_name, dataset, include_top):
     return w
 
 
-def load_model_weights(model, dataset, classes, include_top, **kwargs):
+def load_model_weights(model, model_name, dataset, classes, include_top, **kwargs):
     _, _, _, keras_utils = get_submodules_from_kwargs(kwargs)
 
-    weights = _find_weights(model.name, dataset, include_top)
+    weights = _find_weights(model_name, dataset, include_top)
 
     if weights:
         weights = weights[0]

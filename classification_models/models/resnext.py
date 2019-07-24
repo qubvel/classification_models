@@ -233,7 +233,8 @@ def ResNeXt(
         if type(weights) == str and os.path.exists(weights):
             model.load_weights(weights)
         else:
-            load_model_weights(model, weights, classes, include_top, **kwargs)
+            load_model_weights(model, model_params.model_name,
+                               weights, classes, include_top, **kwargs)
 
     return model
 
