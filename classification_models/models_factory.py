@@ -71,7 +71,7 @@ class ModelsFactory:
     def inject_submodules(cls, func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            new_kwargs = dict(list(kwargs.items) + list(cls.get_kwargs()))
+            new_kwargs = dict(list(kwargs.items()) + list(cls.get_kwargs()))
             return func(*args, **new_kwargs)
 
         return wrapper
