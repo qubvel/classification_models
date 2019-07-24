@@ -105,7 +105,7 @@ def ChannelSE(reduction=16, **kwargs):
 
         # squeeze and excitation block in PyTorch style with
         x = layers.GlobalAveragePooling2D()(x)
-        x = layers.Lambda(expand_dims, arguments=channels_axis)(x)
+        x = layers.Lambda(expand_dims, arguments={'channels_axis': channels_axis})(x)
         x = layers.Conv2D(channels // reduction, (1, 1), kernel_initializer='he_uniform')(x)
         x = layers.Activation('relu')(x)
         x = layers.Conv2D(channels, (1, 1), kernel_initializer='he_uniform')(x)
