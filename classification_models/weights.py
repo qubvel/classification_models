@@ -11,7 +11,7 @@ def _find_weights(model_name, dataset, include_top):
 
 
 def load_model_weights(model, dataset, classes, include_top, **kwargs):
-    _, _, _, keras_utils = get_submodules_from_kwargs(**kwargs)
+    _, _, _, keras_utils = get_submodules_from_kwargs(kwargs)
 
     weights = _find_weights(model.name, dataset, include_top)
 

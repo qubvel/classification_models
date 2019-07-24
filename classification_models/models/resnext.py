@@ -10,13 +10,6 @@ layers = None
 models = None
 keras_utils = None
 
-KWARGS = {
-    'backend': backend,
-    'layers': layers,
-    'models': models,
-    'utils': keras_utils,
-}
-
 ModelParams = collections.namedtuple(
     'ModelParams',
     ['model_name', 'repetitions']
@@ -64,7 +57,7 @@ def get_bn_params(**params):
 # -------------------------------------------------------------------------
 
 
-def conv_block(filters, stage, block, strides=(2, 2)):
+def conv_block(filters, stage, block, strides=(2, 2), **kwargs):
     """The conv block is the block that has conv layer at shortcut.
     # Arguments
         filters: integer, used for first and second conv layers, third conv layer double this value
@@ -78,7 +71,7 @@ def conv_block(filters, stage, block, strides=(2, 2)):
     def layer(input_tensor):
         # extracting params and names for layers
         conv_params = get_conv_params()
-        group_conv_params = dict(list(conv_params.items()) + list(KWARGS.items()))
+        group_conv_params = dict(list(conv_params.items()) + list(kwargs.items()))
         bn_params = get_bn_params()
         conv_name, bn_name, relu_name, sc_name = handle_block_names(stage, block)
 
@@ -104,7 +97,7 @@ def conv_block(filters, stage, block, strides=(2, 2)):
     return layer
 
 
-def identity_block(filters, stage, block):
+def identity_block(filters, stage, block, **kwargs):
     """The identity block is the block that has no conv layer at shortcut.
     # Arguments
         filters: integer, used for first and second conv layers, third conv layer double this value
@@ -116,7 +109,7 @@ def identity_block(filters, stage, block):
 
     def layer(input_tensor):
         conv_params = get_conv_params()
-        group_conv_params = dict(list(conv_params.items()) + list(KWARGS.items()))
+        group_conv_params = dict(list(conv_params.items()) + list(kwargs.items()))
         bn_params = get_bn_params()
         conv_name, bn_name, relu_name, sc_name = handle_block_names(stage, block)
 
@@ -213,13 +206,13 @@ def ResNeXt(
 
             # first block of first stage without strides because we have maxpooling before
             if stage == 0 and block == 0:
-                x = conv_block(filters, stage, block, strides=(1, 1))(x)
+                x = conv_block(filters, stage, block, strides=(1, 1), **kwargs)(x)
 
             elif block == 0:
-                x = conv_block(filters, stage, block, strides=(2, 2))(x)
+                x = conv_block(filters, stage, block, strides=(2, 2), **kwargs)(x)
 
             else:
-                x = identity_block(filters, stage, block)(x)
+                x = identity_block(filters, stage, block, **kwargs)(x)
 
     # resnext top
     if include_top:

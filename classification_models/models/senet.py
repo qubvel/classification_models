@@ -12,13 +12,6 @@ layers = None
 models = None
 keras_utils = None
 
-KWARGS = {
-    'backend': backend,
-    'layers': layers,
-    'models': models,
-    'utils': keras_utils,
-}
-
 ModelParams = collections.namedtuple(
     'ModelParams',
     ['model_name', 'repetitions', 'residual_block', 'groups',
@@ -82,7 +75,7 @@ def SEResNetBottleneck(filters, reduction=16, strides=1, **kwargs):
             residual = layers.BatchNormalization(**bn_params)(residual)
 
         # apply attention module
-        x = ChannelSE(reduction=reduction, **KWARGS)(x)
+        x = ChannelSE(reduction=reduction, **kwargs)(x)
 
         # add residual connection
         x = layers.Add()([x, residual])
@@ -110,7 +103,7 @@ def SEResNeXtBottleneck(filters, reduction=16, strides=1, groups=32, base_width=
 
         x = layers.ZeroPadding2D(1)(x)
         x = GroupConv2D(width, (3, 3), strides=strides, groups=groups,
-                        kernel_initializer='he_uniform', use_bias=False, **KWARGS)(x)
+                        kernel_initializer='he_uniform', use_bias=False, **kwargs)(x)
         x = layers.BatchNormalization(**bn_params)(x)
         x = layers.Activation('relu')(x)
 
@@ -128,7 +121,7 @@ def SEResNeXtBottleneck(filters, reduction=16, strides=1, groups=32, base_width=
             residual = layers.BatchNormalization(**bn_params)(residual)
 
         # apply attention module
-        x = ChannelSE(reduction=reduction, **KWARGS)(x)
+        x = ChannelSE(reduction=reduction, **kwargs)(x)
 
         # add residual connection
         x = layers.Add()([x, residual])
@@ -142,6 +135,8 @@ def SEResNeXtBottleneck(filters, reduction=16, strides=1, groups=32, base_width=
 
 def SEBottleneck(filters, reduction=16, strides=1, groups=64, is_first=False, **kwargs):
     bn_params = get_bn_params()
+    modules_kwargs = ({k: v for k, v in kwargs.items()
+                       if k in ('backend', 'layers', 'models', 'utils')})
 
     if is_first:
         downsample_kernel_size = (1, 1)
@@ -162,7 +157,7 @@ def SEBottleneck(filters, reduction=16, strides=1, groups=64, is_first=False, **
 
         x = layers.ZeroPadding2D(1)(x)
         x = GroupConv2D(filters, (3, 3), strides=strides, groups=groups,
-                        kernel_initializer='he_uniform', use_bias=False, **KWARGS)(x)
+                        kernel_initializer='he_uniform', use_bias=False, **kwargs)(x)
         x = layers.BatchNormalization(**bn_params)(x)
         x = layers.Activation('relu')(x)
 
@@ -182,7 +177,7 @@ def SEBottleneck(filters, reduction=16, strides=1, groups=64, is_first=False, **
             residual = layers.BatchNormalization(**bn_params)(residual)
 
         # apply attention module
-        x = ChannelSE(reduction=reduction, **KWARGS)(x)
+        x = ChannelSE(reduction=reduction, **kwargs)(x)
 
         # add residual connection
         x = layers.Add()([x, residual])
@@ -200,13 +195,13 @@ def SEBottleneck(filters, reduction=16, strides=1, groups=64, is_first=False, **
 
 
 def SENet(
-    model_params,
-    input_tensor=None,
-    input_shape=None,
-    include_top=True,
-    classes=1000,
-    weights='imagenet',
-    **kwargs
+        model_params,
+        input_tensor=None,
+        input_shape=None,
+        include_top=True,
+        classes=1000,
+        weights='imagenet',
+        **kwargs
 ):
     """Instantiates the ResNet, SEResNet architecture.
     Optionally loads weights pre-trained on ImageNet.
