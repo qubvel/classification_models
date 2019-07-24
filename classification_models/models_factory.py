@@ -32,8 +32,8 @@ class ModelsFactory:
         'resnet152v2': [ka.resnet_v2.ResNet152V2, ka.resnet_v2.preprocess_input],
 
         # ResNext
-        'resnext50': [rx.ResNeXt50, ka.preprocess_input],
-        'resnext101': [rx.ResNeXt101, ka.preprocess_input],
+        'resnext50': [rx.ResNeXt50, rx.preprocess_input],
+        'resnext101': [rx.ResNeXt101, rx.preprocess_input],
 
         # VGG
         'vgg16': [ka.vgg16.VGG16, ka.vgg16.preprocess_input],
