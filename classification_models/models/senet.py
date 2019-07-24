@@ -3,10 +3,9 @@ import collections
 
 from keras_applications import imagenet_utils
 
-from . import get_submodules_from_kwargs
+from classification_models import get_submodules_from_kwargs
 from ._common_blocks import GroupConv2D, ChannelSE
-from ..weights import weights_collection
-from ..utils import load_model_weights
+from ..weights import load_model_weights
 
 backend = None
 layers = None
@@ -319,10 +318,10 @@ def SENet(
     model = models.Model(input, x)
 
     if weights:
-        if os.path.exists(weights):
+        if type(weights) == str and os.path.exists(weights):
             model.load_weights(weights)
         else:
-            load_model_weights(weights_collection, model, weights, classes, include_top)
+            load_model_weights(model, weights, classes, include_top, **kwargs)
 
     return model
 

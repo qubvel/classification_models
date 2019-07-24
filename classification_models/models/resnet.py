@@ -1,10 +1,10 @@
 import os
 import collections
 
-from . import get_submodules_from_kwargs
+
 from ._common_blocks import ChannelSE
-from ..weights import weights_collection
-from ..utils import load_model_weights
+from .. import get_submodules_from_kwargs
+from ..weights import load_model_weights
 
 backend = None
 layers = None
@@ -274,10 +274,10 @@ def ResNet(model_params, input_shape=None, input_tensor=None, include_top=True,
     model = models.Model(inputs, x)
 
     if weights:
-        if os.path.exists(weights):
+        if type(weights) == str and os.path.exists(weights):
             model.load_weights(weights)
         else:
-            load_model_weights(weights_collection, model, weights, classes, include_top)
+            load_model_weights(model, weights, classes, include_top, **kwargs)
 
     return model
 
