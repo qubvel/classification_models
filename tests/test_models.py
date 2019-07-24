@@ -16,7 +16,7 @@ else:
 
 modules_kwargs = Classifiers.get_kwargs()
 
-MODELS = Classifiers.names()
+MODELS = Classifiers.models_names()
 
 RESNET_LIST = [
     ('resnet18', 512),
