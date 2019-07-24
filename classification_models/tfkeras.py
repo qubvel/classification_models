@@ -14,4 +14,4 @@ class TFKerasModelsFactory(ModelsFactory):
         }
 
 
-TFClassifiers = TFKerasModelsFactory
+TFClassifiers = TFKerasModelsFactory()

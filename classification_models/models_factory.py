@@ -59,35 +59,32 @@ class ModelsFactory:
         'mobilenetv2': [ka.mobilenet_v2.MobileNetV2, ka.mobilenet_v2.preprocess_input],
     }
 
-    @classmethod
-    def models(cls):
-        return cls._models
+    @property
+    def models(self):
+        return self._models
 
-    @classmethod
-    def models_names(cls):
-        return list(cls.models().keys())
+    def models_names(self):
+        return list(self.models.keys())
 
     @staticmethod
     def get_kwargs():
         return {}
 
-    @classmethod
-    def inject_submodules(cls, func):
+    def inject_submodules(self, func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            modules_kwargs = cls.get_kwargs()
+            modules_kwargs = self.get_kwargs()
             new_kwargs = dict(list(kwargs.items()) + list(modules_kwargs.items()))
             return func(*args, **new_kwargs)
 
         return wrapper
 
-    @classmethod
-    def get(cls, name):
-        if not name in cls.models_names():
+    def get(self, name):
+        if name not in self.models_names():
             raise ValueError('No such model `{}`, available models: {}'.format(
-                name, list(cls.models_names())))
+                name, list(self.models_names())))
 
-        model_fn, preprocess_input = cls.models[name]
-        model_fn = cls.inject_submodules(model_fn)
-        preprocess_input = cls.inject_submodules(preprocess_input)
+        model_fn, preprocess_input = self.models[name]
+        model_fn = self.inject_submodules(model_fn)
+        preprocess_input = self.inject_submodules(preprocess_input)
         return model_fn, preprocess_input
