@@ -11,7 +11,4 @@ def get_submodules_from_kwargs(kwargs):
     layers = kwargs.get('layers', _KERAS_LAYERS)
     models = kwargs.get('models', _KERAS_MODELS)
     utils = kwargs.get('utils', _KERAS_UTILS)
-    for key in kwargs.keys():
-        if key not in ['backend', 'layers', 'models', 'utils']:
-            raise TypeError('Invalid keyword argument: %s', key)
     return backend, layers, models, utils

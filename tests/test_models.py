@@ -14,6 +14,8 @@ else:
     import keras
     from classification_models.keras import KerasClassifiers as Classifiers
 
+modules_kwargs = Classifiers.get_kwargs()
+
 MODELS = Classifiers.names()
 
 RESNET_LIST = [
@@ -111,13 +113,13 @@ def _test_application(name, input_shape=(224, 224, 3), last_dim=1000, label='bul
     output_shape, preds = _get_output_shape(model, preprocess_input)
     assert output_shape == (None, last_dim)
 
-    names = [p[1] for p in decode_predictions(preds)[0]]
+    names = [p[1] for p in decode_predictions(preds, **modules_kwargs)[0]]
     assert label in names[:3]
 
 
 @keras_test
 def _test_application_notop(name, input_shape=(None, None, 3), last_dim=1024):
-    classifier = Classifiers.get_classifier(name)
+    classifier, _ = Classifiers.get(name)
     model = classifier(input_shape=input_shape, weights=None, include_top=False)
     assert model.output_shape == (None, None, None, last_dim)
 
