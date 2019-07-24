@@ -294,14 +294,14 @@ def SENet(
             # decrease spatial dimensions for each stage (except first, because we have maxpool before)
             if i == 0 and j == 0:
                 x = residual_block(filters, reduction=model_params.reduction,
-                                   strides=1, groups=model_params.groups, is_first=True)(x)
+                                   strides=1, groups=model_params.groups, is_first=True, **kwargs)(x)
 
             elif i != 0 and j == 0:
                 x = residual_block(filters, reduction=model_params.reduction,
-                                   strides=2, groups=model_params.groups)(x)
+                                   strides=2, groups=model_params.groups, **kwargs)(x)
             else:
                 x = residual_block(filters, reduction=model_params.reduction,
-                                   strides=1, groups=model_params.groups)(x)
+                                   strides=1, groups=model_params.groups, **kwargs)(x)
 
     if include_top:
         x = layers.GlobalAveragePooling2D()(x)
