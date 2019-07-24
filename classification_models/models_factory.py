@@ -7,7 +7,7 @@ from .models import senet as sn
 
 
 class ModelsFactory:
-    models = {
+    _models = {
 
         # ResNets
         'resnet18': [rn.ResNet18, rn.preprocess_input],
@@ -60,8 +60,12 @@ class ModelsFactory:
     }
 
     @classmethod
-    def names(cls):
-        return list(cls.models.keys())
+    def models(cls):
+        return cls._models
+
+    @classmethod
+    def models_names(cls):
+        return list(cls.models().keys())
 
     @staticmethod
     def get_kwargs():
@@ -79,9 +83,9 @@ class ModelsFactory:
 
     @classmethod
     def get(cls, name):
-        if not name in cls.models.keys():
+        if not name in cls.models_names():
             raise ValueError('No such model `{}`, available models: {}'.format(
-                name, list(cls.models.keys())))
+                name, list(cls.models_names())))
 
         model_fn, preprocess_input = cls.models[name]
         model_fn = cls.inject_submodules(model_fn)

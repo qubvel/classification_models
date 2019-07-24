@@ -112,7 +112,7 @@ This way take one additional line of code, however if you would
 like to train several models you do not need to import them directly, 
 just access everything through `Classifiers`.
 
-You can get all model names using `Classifiers.names()` method.
+You can get all model names using `Classifiers.models_names()` method.
 
 ##### Inference example:
  
