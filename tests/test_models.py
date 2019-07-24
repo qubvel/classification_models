@@ -2,17 +2,17 @@ import os
 import six
 import random
 import pytest
-import logging
+
 import numpy as np
-import keras.backend as K
-
 from skimage.io import imread
-from keras.applications.imagenet_utils import decode_predictions
-from keras.models import load_model
-from classification_models import Classifiers
+from keras_applications.imagenet_utils import decode_predictions
 
-logging.basicConfig(level=logging.DEBUG)
-log = logging.getLogger()
+if os.environ.get('TF_KERAS'):
+    import tensorflow.keras as keras
+    from classification_models.tfkeras import TFClassifiers as Classifiers
+else:
+    import keras
+    from classification_models.keras import KerasClassifiers as Classifiers
 
 MODELS = Classifiers.names()
 
@@ -56,7 +56,7 @@ def keras_test(func):
     @six.wraps(func)
     def wrapper(*args, **kwargs):
         output = func(*args, **kwargs)
-        K.clear_session()
+        keras.backend.clear_session()
         return output
 
     return wrapper
@@ -93,7 +93,7 @@ def _test_save_load(name, input_shape=(224, 224, 3)):
     model1.save('model.h5')
 
     # load same model from file
-    model2 = load_model('model.h5', compile=False)
+    model2 = keras.models.load_model('model.h5', compile=False)
     os.remove('model.h5')
 
     x = _get_img()
@@ -169,11 +169,11 @@ def test_senets(name, last_dim):
         _test_application_notop(name, last_dim=last_dim)
         _test_application_variable_input_channels(name, last_dim=last_dim)
 
-        
+
 def test_save_load():
     name, last_dim = SERESNEXT_LIST[0]
     _test_save_load(name)
 
-    
+
 if __name__ == '__main__':
     pytest.main([__file__])
