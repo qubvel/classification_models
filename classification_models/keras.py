@@ -14,4 +14,4 @@ class KerasModelsFactory(ModelsFactory):
         }
 
 
-KerasClassifiers = KerasModelsFactory()
+Classifiers = KerasModelsFactory()

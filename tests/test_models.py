@@ -9,14 +9,13 @@ from keras_applications.imagenet_utils import decode_predictions
 
 if os.environ.get('TF_KERAS'):
     import tensorflow.keras as keras
-    from classification_models.tfkeras import TFClassifiers as Classifiers
+    from classification_models.tfkeras import Classifiers
 else:
     import keras
-    from classification_models.keras import KerasClassifiers as Classifiers
+    from classification_models.keras import Classifiers
 
-modules_kwargs = Classifiers.get_kwargs()
-
-MODELS = Classifiers.models_names()
+KWARGS = Classifiers.get_kwargs()
+MODELS_NAMES = Classifiers.models_names()
 
 RESNET_LIST = [
     ('resnet18', 512),
@@ -113,7 +112,7 @@ def _test_application(name, input_shape=(224, 224, 3), last_dim=1000, label='bul
     output_shape, preds = _get_output_shape(model, preprocess_input)
     assert output_shape == (None, last_dim)
 
-    names = [p[1] for p in decode_predictions(preds, **modules_kwargs)[0]]
+    names = [p[1] for p in decode_predictions(preds, **KWARGS)[0]]
     assert label in names[:3]
 
 
@@ -130,7 +129,7 @@ def _test_application_variable_input_channels(name, last_dim=1024):
     _test_application_notop(name, input_shape=(None, None, 4), last_dim=last_dim)
 
 
-@pytest.mark.parametrize('name', MODELS)
+@pytest.mark.parametrize('name', MODELS_NAMES)
 def test_imports(name):
     data = Classifiers.get(name)
     assert data is not None

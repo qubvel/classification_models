@@ -99,7 +99,7 @@ $ pip install git+https://github.com/qubvel/classification_models.git
 
 ```python
 # for keras
-from classification_models.keras import KerasClassifiers as Classifiers
+from classification_models.keras import Classifiers
 
 # for tensorflow.keras
 # from classification_models.tfkeras import TFClassifiers as Classifiers
@@ -121,7 +121,7 @@ import numpy as np
 from skimage.io import imread
 from skimage.transform import resize
 from keras.applications.imagenet_utils import decode_predictions
-from classification_models.keras import KerasClassifiers as Classifiers
+from classification_models.keras import Classifiers
 
 ResNet18, preprocess_input = Classifiers.get('resnet18')
 
@@ -144,7 +144,7 @@ print(decode_predictions(y))
 ##### Model fine-tuning example:
 ```python
 import keras
-from classification_models.keras import KerasClassifiers as Classifiers
+from classification_models.keras import Classifiers
 
 ResNet18, preprocess_input = Classifiers.get('resnet18')
 
