@@ -88,10 +88,16 @@ Requirements:
     Please, choose suitable version (‘cpu’/’gpu’) and install it manually using 
     official Guide (https://www.tensorflow.org/install/).
 
-PyPI package:
+PyPI stable package:
 ```bash
-$ pip install image-classifiers
+$ pip install image-classifiers==0.2.2
 ```
+
+PyPI latest package:
+```bash
+$ pip install image-classifiers==1.0.0b1
+```
+
 Latest version:
 ```bash
 $ pip install git+https://github.com/qubvel/classification_models.git
