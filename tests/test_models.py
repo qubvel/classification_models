@@ -2,19 +2,20 @@ import os
 import six
 import random
 import pytest
-import logging
+
 import numpy as np
-import keras.backend as K
-
 from skimage.io import imread
-from keras.applications.imagenet_utils import decode_predictions
-from keras.models import load_model
-from classification_models import Classifiers
+from keras_applications.imagenet_utils import decode_predictions
 
-logging.basicConfig(level=logging.DEBUG)
-log = logging.getLogger()
+if os.environ.get('TF_KERAS'):
+    import tensorflow.keras as keras
+    from classification_models.tfkeras import Classifiers
+else:
+    import keras
+    from classification_models.keras import Classifiers
 
-MODELS = Classifiers.names()
+KWARGS = Classifiers.get_kwargs()
+MODELS_NAMES = Classifiers.models_names()
 
 RESNET_LIST = [
     ('resnet18', 512),
@@ -56,7 +57,7 @@ def keras_test(func):
     @six.wraps(func)
     def wrapper(*args, **kwargs):
         output = func(*args, **kwargs)
-        K.clear_session()
+        keras.backend.clear_session()
         return output
 
     return wrapper
@@ -93,7 +94,7 @@ def _test_save_load(name, input_shape=(224, 224, 3)):
     model1.save('model.h5')
 
     # load same model from file
-    model2 = load_model('model.h5', compile=False)
+    model2 = keras.models.load_model('model.h5', compile=False)
     os.remove('model.h5')
 
     x = _get_img()
@@ -111,13 +112,13 @@ def _test_application(name, input_shape=(224, 224, 3), last_dim=1000, label='bul
     output_shape, preds = _get_output_shape(model, preprocess_input)
     assert output_shape == (None, last_dim)
 
-    names = [p[1] for p in decode_predictions(preds)[0]]
+    names = [p[1] for p in decode_predictions(preds, **KWARGS)[0]]
     assert label in names[:3]
 
 
 @keras_test
 def _test_application_notop(name, input_shape=(None, None, 3), last_dim=1024):
-    classifier = Classifiers.get_classifier(name)
+    classifier, _ = Classifiers.get(name)
     model = classifier(input_shape=input_shape, weights=None, include_top=False)
     assert model.output_shape == (None, None, None, last_dim)
 
@@ -128,7 +129,7 @@ def _test_application_variable_input_channels(name, last_dim=1024):
     _test_application_notop(name, input_shape=(None, None, 4), last_dim=last_dim)
 
 
-@pytest.mark.parametrize('name', MODELS)
+@pytest.mark.parametrize('name', MODELS_NAMES)
 def test_imports(name):
     data = Classifiers.get(name)
     assert data is not None
@@ -169,11 +170,11 @@ def test_senets(name, last_dim):
         _test_application_notop(name, last_dim=last_dim)
         _test_application_variable_input_channels(name, last_dim=last_dim)
 
-        
+
 def test_save_load():
     name, last_dim = SERESNEXT_LIST[0]
     _test_save_load(name)
 
-    
+
 if __name__ == '__main__':
     pytest.main([__file__])

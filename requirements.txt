@@ -1,1 +1,1 @@
-keras>=2.1.0
+keras_applications>=1.0.7,<=1.0.8

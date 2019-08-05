@@ -1,4 +1,43 @@
-weights_collection = [
+from . import get_submodules_from_kwargs
+
+__all__ = ['load_model_weights']
+
+
+def _find_weights(model_name, dataset, include_top):
+    w = list(filter(lambda x: x['model'] == model_name, WEIGHTS_COLLECTION))
+    w = list(filter(lambda x: x['dataset'] == dataset, w))
+    w = list(filter(lambda x: x['include_top'] == include_top, w))
+    return w
+
+
+def load_model_weights(model, model_name, dataset, classes, include_top, **kwargs):
+    _, _, _, keras_utils = get_submodules_from_kwargs(kwargs)
+
+    weights = _find_weights(model_name, dataset, include_top)
+
+    if weights:
+        weights = weights[0]
+
+        if include_top and weights['classes'] != classes:
+            raise ValueError('If using `weights` and `include_top`'
+                             ' as true, `classes` should be {}'.format(weights['classes']))
+
+        weights_path = keras_utils.get_file(
+            weights['name'],
+            weights['url'],
+            cache_subdir='models',
+            md5_hash=weights['md5']
+        )
+
+        model.load_weights(weights_path)
+
+    else:
+        raise ValueError('There is no weights for such configuration: ' +
+                         'model = {}, dataset = {}, '.format(model.name, dataset) +
+                         'classes = {}, include_top = {}.'.format(classes, include_top))
+
+
+WEIGHTS_COLLECTION = [
 
     # ResNet18
     {
@@ -104,7 +143,6 @@ weights_collection = [
         'md5': '1016e7663980d5597a4e224d915c342d',
     },
 
-
     # ResNet152
     {
         'model': 'resnet152',
@@ -146,7 +184,6 @@ weights_collection = [
         'md5': '25ab66dec217cb774a27d0f3659cafb3',
     },
 
-
     # ResNeXt50
     {
         'model': 'resnext50',
@@ -167,7 +204,6 @@ weights_collection = [
         'name': 'resnext50_imagenet_1000_no_top.h5',
         'md5': '7ade5c8aac9194af79b1724229bdaa50',
     },
-
 
     # ResNeXt101
     {

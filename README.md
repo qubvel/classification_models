@@ -1,6 +1,11 @@
 [![PyPI version](https://badge.fury.io/py/image-classifiers.svg)](https://badge.fury.io/py/image-classifiers) [![Build Status](https://travis-ci.com/qubvel/classification_models.svg?branch=master)](https://travis-ci.com/qubvel/classification_models) 
-# Classification models Zoo
-Trained on [ImageNet](http://www.image-net.org/) classification models. [Keras](https://keras.io/).
+# Classification models Zoo - Keras (and TensorFlow Keras)
+Trained on [ImageNet](http://www.image-net.org/) classification models. 
+The library is designed to work both with [Keras](https://keras.io/) and [TensorFlow Keras](https://www.tensorflow.org/guide/keras). See example below.
+
+## Important!
+There was a huge library update **05 of August**. Now classification-models works with both frameworks: `keras` and `tensorflow.keras`.
+If you have models, trained before that date, to load them, please, use `image-classifiers` (PyPI package name) of 0.2.2 version. You can roll back using `pip install -U image-classifiers==0.2.2`.
 
 ### Architectures: 
 - [VGG](https://arxiv.org/abs/1409.1556) [16, 19]
@@ -63,11 +68,6 @@ Time is listed just for comparison of performance.
 |mobilenet        |70.36|89.39|15.50|[keras](https://github.com/keras-team/keras-applications)|
 |mobilenetv2      |71.63|90.35|18.31|[keras](https://github.com/keras-team/keras-applications)|
 
-###### Note
-[SE-]ResNeXt and SENet models build with `GroupConvolution` which 
-is not implemented in Keras/TensorFlow. For correct work of `load_model` function 
-custom object is used. To be able to load one of these models from file, please, 
-import `classification_models` before.
 
 ### Weights
 | Name                    |Classes   | Models    |
@@ -80,19 +80,24 @@ import `classification_models` before.
 ### Installation
 
 Requirements:
-- python >= 3.5
-- keras >= 2.1.0
-- tensorflow >= 1.9
+- Keras >= 2.2.0 / TensorFlow >= 1.12
+- keras_applications >= 1.0.7
 
 ###### Note
     This library does not have TensorFlow in a requirements for installation. 
     Please, choose suitable version (‘cpu’/’gpu’) and install it manually using 
     official Guide (https://www.tensorflow.org/install/).
 
-PyPI package:
+PyPI stable package:
 ```bash
-$ pip install image-classifiers
+$ pip install image-classifiers==0.2.2
 ```
+
+PyPI latest package:
+```bash
+$ pip install image-classifiers==1.0.0b1
+```
+
 Latest version:
 ```bash
 $ pip install git+https://github.com/qubvel/classification_models.git
@@ -102,25 +107,22 @@ $ pip install git+https://github.com/qubvel/classification_models.git
 
 ##### Loading model with `imagenet` weights:
 
-1) Direct way (keras-applications like)
 ```python
-from classification_models.resnet import ResNet18, preprocess_input
+# for keras
+from classification_models.keras import Classifiers
 
+# for tensorflow.keras
+# from classification_models.tfkeras import TFClassifiers as Classifiers
+
+ResNet18, preprocess_input = Classifiers.get('resnet18')
 model = ResNet18((224, 224, 3), weights='imagenet')
 ```
 
-2) Using `Classifiers` container
-```python
-from classification_models import Classifiers
-
-classifier, preprocess_input = Classifiers.get('resnet18')
-model = classifier((224, 224, 3), weights='imagenet')
-```
 This way take one additional line of code, however if you would 
 like to train several models you do not need to import them directly, 
 just access everything through `Classifiers`.
 
-You can get all model names using `Classifiers.names()` method.
+You can get all model names using `Classifiers.models_names()` method.
 
 ##### Inference example:
  
@@ -129,8 +131,9 @@ import numpy as np
 from skimage.io import imread
 from skimage.transform import resize
 from keras.applications.imagenet_utils import decode_predictions
+from classification_models.keras import Classifiers
 
-from classification_models.resnet import ResNet18, preprocess_input
+ResNet18, preprocess_input = Classifiers.get('resnet18')
 
 # read and prepare image
 x = imread('./imgs/tests/seagull.jpg')
@@ -151,7 +154,9 @@ print(decode_predictions(y))
 ##### Model fine-tuning example:
 ```python
 import keras
-from classification_models.resnet import ResNet18, preprocess_input
+from classification_models.keras import Classifiers
+
+ResNet18, preprocess_input = Classifiers.get('resnet18')
 
 # prepare your data
 X = ...
