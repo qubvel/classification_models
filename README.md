@@ -3,6 +3,10 @@
 Trained on [ImageNet](http://www.image-net.org/) classification models. 
 The library is designed to work both with [Keras](https://keras.io/) and [TensorFlow Keras](https://www.tensorflow.org/guide/keras). See example below.
 
+## Important!
+There was a huge library update **05 of August**. Now classification-models works with both frameworks: `keras` and `tensorflow.keras`.
+If you have models, trained before that date, to load them, please, use `image-classifiers` (PyPI package name) of 0.2.2 version. You can roll back using `pip install -U image-classifiers==0.2.2`.
+
 ### Architectures: 
 - [VGG](https://arxiv.org/abs/1409.1556) [16, 19]
 - [ResNet](https://arxiv.org/abs/1512.03385) [18, 34, 50, 101, 152]
