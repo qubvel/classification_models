@@ -310,7 +310,13 @@ def SENet(
         x = layers.Dense(classes)(x)
         x = layers.Activation('softmax', name='output')(x)
 
-    model = models.Model(input, x)
+    # Ensure that the model takes into account any potential predecessors of `input_tensor`.
+    if input_tensor is not None:
+        inputs = keras_utils.get_source_inputs(input_tensor)
+    else:
+        inputs = input
+
+    model = models.Model(inputs, x)
 
     if weights:
         if type(weights) == str and os.path.exists(weights):
