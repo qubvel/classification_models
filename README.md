@@ -73,7 +73,7 @@ Time is listed just for comparison of performance.
 | Name                    |Classes   | Models    |
 |-------------------------|:--------:|:---------:|
 |'imagenet'               |1000      |all models |
-|'imagenet11k-place365ch' |11586     |resnet50   |
+|'imagenet11k-places365ch' |11586     |resnet50   |
 |'imagenet11k'            |11221     |resnet152  |
 
 
