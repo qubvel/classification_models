@@ -1,1 +1,8 @@
 keras_applications>=1.0.7,<=1.0.8
+six~=1.15.0
+pytest~=6.2.3
+numpy~=1.19.3
+tensorflow~=2.4.1
+keras~=2.4.3
+scikit-image~=0.18.1
+setuptools~=49.6.0

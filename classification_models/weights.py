@@ -1,5 +1,4 @@
 from . import get_submodules_from_kwargs
-from keras.utils.data_utils import get_file
 
 __all__ = ['load_model_weights']
 
@@ -23,11 +22,7 @@ def load_model_weights(model, model_name, dataset, classes, include_top, **kwarg
             raise ValueError('If using `weights` and `include_top`'
                              ' as true, `classes` should be {}'.format(weights['classes']))
 
-        """ Modified to solve following error:
-        module 'keras.utils' has no attribute 'get_file'
-        """
-        # weights_path = keras_utils.get_file(
-        weights_path = get_file(
+        weights_path = keras_utils.get_file(
             weights['name'],
             weights['url'],
             cache_subdir='models',
