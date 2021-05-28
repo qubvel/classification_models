@@ -5,6 +5,7 @@ import collections
 from ._common_blocks import ChannelSE
 from .. import get_submodules_from_kwargs
 from ..weights import load_model_weights
+from tensorflow.keras.utils import get_source_inputs
 
 backend = None
 layers = None
@@ -272,7 +273,11 @@ def ResNet(model_params, input_shape=None, input_tensor=None, include_top=True,
 
     # Ensure that the model takes into account any potential predecessors of `input_tensor`.
     if input_tensor is not None:
-        inputs = keras_utils.get_source_inputs(input_tensor)
+        """ Modified to solve following error:
+        module 'keras.utils' has no attribute 'get_source_inputs'
+        """
+        # inputs = keras_utils.get_source_inputs(input_tensor)
+        inputs = get_source_inputs(input_tensor)
     else:
         inputs = img_input
 
