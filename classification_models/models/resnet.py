@@ -209,10 +209,16 @@ def ResNet(model_params, input_shape=None, input_tensor=None, include_top=True,
     if input_tensor is None:
         img_input = layers.Input(shape=input_shape, name='data')
     else:
-        if not backend.is_keras_tensor(input_tensor):
-            img_input = layers.Input(tensor=input_tensor, shape=input_shape)
-        else:
-            img_input = input_tensor
+        """ Commented to solve following error:
+        ValueError: Unexpectedly found an instance of type 
+        `<class 'tensorflow.python.keras.engine.keras_tensor.KerasTensor'>`. 
+        Expected a symbolic tensor instance.
+        """
+        # if not backend.is_keras_tensor(input_tensor):
+        #     img_input = layers.Input(tensor=input_tensor, shape=input_shape)
+        # else:
+        #     img_input = input_tensor
+        img_input = input_tensor
 
     # choose residual block type
     ResidualBlock = model_params.residual_block
